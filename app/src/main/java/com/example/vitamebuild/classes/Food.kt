@@ -2,21 +2,36 @@ package com.example.vitamebuild.classes
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+class Nutrition(val name: String, val weightAmountInGrams: Int){
+    var calories: Int = 0
+    var vitamins: MutableMap<String, Double> = mutableMapOf()
+
+    fun calculateWeightToNutritiveInformation(){
+        //calculates the weight to vitamins and
+    }
+
+    fun getVitamins(){
+        //gets the vitamins for this object
+    }
+}
 
 //Creates a class for food below
-class Food (val foodName: String) {
+open class Food (val foodName: String) {
 
-    var rating: Int = 0
     var foodTimeEaten: String = "unknown"
     var foodDateEaten: String = "unknown"
     var foodPlace: String = "unknown"
     var foodAmountFullness: Int = 0
     var foodTastiness: Int = 0
+    var rating: Int = 0
+    var amountInGrams: Int = 0
+    var nutritiveInformation: Nutrition = Nutrition(foodName, 0)
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     constructor(
         foodName: String,
         timeEaten: String,
@@ -26,7 +41,7 @@ class Food (val foodName: String) {
                 else -> timeEaten
             }
             foodDateEaten = when(dateEaten) {
-                "Now" -> getCurrentTimeAsString()
+                "Now" -> getCurrentDateAsString()
                 else -> dateEaten
             }
 
@@ -44,12 +59,19 @@ class Food (val foodName: String) {
         println("Food was eaten more than few hours ago and I feel ...")
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     fun getCurrentTimeAsString(): String {
         val currentTime = LocalTime.now() // Get the current time
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss") // Define the format
+        val formatter = DateTimeFormatter.ofPattern("HH:mm") // Define the format
 
         return currentTime.format(formatter) // Convert time to string using the defined format
     }
 
+    fun getCurrentDateAsString(): String {
+        val currentDate = LocalDate.now() // Get the current time
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd") // Define the format
+
+        return currentDate.format(formatter) // Convert time to string using the defined format
+    }
 }
+

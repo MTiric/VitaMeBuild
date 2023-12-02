@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
+        val food = Food(
+            foodName = "Bread", timeEaten = "Now", dateEaten = "Now")
         super.onCreate(savedInstanceState)
         setContent {
             VitaMeBuildTheme {
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Greeting(food.foodDateEaten)
                 }
             }
         }
@@ -48,7 +49,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
