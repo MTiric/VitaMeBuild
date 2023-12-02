@@ -5,13 +5,7 @@ import androidx.annotation.RequiresApi
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun getCurrentTimeAsString(): String {
-    val currentTime = LocalTime.now() // Get the current time
-    val formatter = DateTimeFormatter.ofPattern("HH:mm:ss") // Define the format
 
-    return currentTime.format(formatter) // Convert time to string using the defined format
-}
 //Creates a class for food below
 class Food (val foodName: String) {
 
@@ -25,11 +19,17 @@ class Food (val foodName: String) {
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(
         foodName: String,
-        timeEaten: String) : this(foodName){
+        timeEaten: String,
+        dateEaten: String) : this(foodName){
             foodTimeEaten = when(timeEaten) {
                 "Now" -> getCurrentTimeAsString()
                 else -> timeEaten
             }
+            foodDateEaten = when(dateEaten) {
+                "Now" -> getCurrentTimeAsString()
+                else -> dateEaten
+            }
+
 
     }
 
@@ -43,4 +43,13 @@ class Food (val foodName: String) {
     fun calculateFoodQualityDistant() {
         println("Food was eaten more than few hours ago and I feel ...")
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCurrentTimeAsString(): String {
+        val currentTime = LocalTime.now() // Get the current time
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss") // Define the format
+
+        return currentTime.format(formatter) // Convert time to string using the defined format
+    }
+
 }
