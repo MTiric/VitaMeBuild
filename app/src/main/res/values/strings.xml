@@ -9,5 +9,6 @@
     <string name ="food_amount_fullness">How full did you feel?</string>
     <string name ="food_tastiness">How tasty was the food?</string>
     <string name ="food_rating">Rate the food</string>
-    <string name ="food_amount_in_grams">Grams</string>
+    <string name ="food_amount_in_grams">Weight in grams</string>
+    <string name ="submit_button">Submit</string>
 </resources>

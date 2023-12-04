@@ -6,7 +6,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class Nutrition(val name: String, val weightAmountInGrams: Int){
+class Nutrition(var name: String, val weightAmountInGrams: Int){
     var calories: Int = 0
     var vitamins: MutableMap<String, Double> = mutableMapOf()
 
@@ -20,11 +20,11 @@ class Nutrition(val name: String, val weightAmountInGrams: Int){
 }
 
 //Creates a class for food below
-open class Food (val foodName: String) {
+open class Food (var foodName: String) {
 
-    var foodTimeEaten: String = "unknown"
-    var foodDateEaten: String = "unknown"
-    var foodPlace: String = "unknown"
+    var foodTimeEaten: String = ""
+    var foodDateEaten: String = ""
+    var foodPlace: String = ""
     var foodAmountFullness: Int = 0
     var foodTastiness: Int = 0
     var rating: Int = 0
@@ -73,5 +73,26 @@ open class Food (val foodName: String) {
 
         return currentDate.format(formatter) // Convert time to string using the defined format
     }
+}
+
+fun createFoodObject(
+    foodName: String,
+    timeEaten: String,
+    dateEaten: String,
+    place: String,
+    amountFullness: String,
+    tastiness: String,
+    rating: String,
+    amountInGrams: String
+): Food {
+    val food = Food(foodName)
+    food.foodTimeEaten = timeEaten
+    food.foodDateEaten = dateEaten
+    food.foodPlace = place
+    food.foodAmountFullness = amountFullness.toIntOrNull() ?: 0
+    food.foodTastiness = tastiness.toIntOrNull() ?: 0
+    food.rating = rating.toIntOrNull() ?: 0
+    food.amountInGrams = amountInGrams.toIntOrNull() ?: 0
+    return food
 }
 

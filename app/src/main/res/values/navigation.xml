@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="screen_one">SCREEN_ONE</string>
+    <string name="screen_two">SCREEN_TWO</string>
+    <string name="food_input_screen">FOOD_INPUT_SCREEN</string>
+</resources>
