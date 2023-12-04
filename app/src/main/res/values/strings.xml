@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">VitaMe build</string>
+
+    <string name ="food_title_generic">My meal</string>
+    <string name ="food_name">Food name</string>
+    <string name ="food_time_eaten">What time did you eat?</string>
+    <string name ="food_date_eaten">What day did you eat?</string>
+    <string name ="food_place">Where did you eat?</string>
+    <string name ="food_amount_fullness">How full did you feel?</string>
+    <string name ="food_tastiness">How tasty was the food?</string>
+    <string name ="food_rating">Rate the food</string>
+    <string name ="food_amount_in_grams">Grams</string>
 </resources>
