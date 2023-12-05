@@ -25,9 +25,9 @@ open class Food (var foodName: String) {
     var foodTimeEaten: String = ""
     var foodDateEaten: String = ""
     var foodPlace: String = ""
-    var foodAmountFullness: Int = 0
-    var foodTastiness: Int = 0
-    var rating: Int = 0
+    var foodAmountFullness: Float = 0f
+    var foodTastiness: Float = 0f
+    var rating: Float = 0f
     var amountInGrams: Int = 0
     var nutritiveInformation: Nutrition = Nutrition(foodName, 0)
 
@@ -80,18 +80,18 @@ fun createFoodObject(
     timeEaten: String,
     dateEaten: String,
     place: String,
-    amountFullness: String,
-    tastiness: String,
-    rating: String,
+    amountFullness: Float,
+    tastiness: Float,
+    rating: Float,
     amountInGrams: String
 ): Food {
     val food = Food(foodName)
     food.foodTimeEaten = timeEaten
     food.foodDateEaten = dateEaten
     food.foodPlace = place
-    food.foodAmountFullness = amountFullness.toIntOrNull() ?: 0
-    food.foodTastiness = tastiness.toIntOrNull() ?: 0
-    food.rating = rating.toIntOrNull() ?: 0
+    food.foodAmountFullness = amountFullness
+    food.foodTastiness = tastiness
+    food.rating = rating
     food.amountInGrams = amountInGrams.toIntOrNull() ?: 0
     return food
 }

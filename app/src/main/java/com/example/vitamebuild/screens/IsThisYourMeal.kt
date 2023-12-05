@@ -21,6 +21,8 @@ fun IsThisYourMeal(navController: NavHostController) {
     ) {
         Text(text = "Is this your meal?", fontSize = 30.sp)
         Text(text = MealHolder.meal.foodName)
+        Text(text = MealHolder.meal.foodTimeEaten)
+        Text(text = MealHolder.meal.foodDateEaten)
         Button(
             onClick = {
                 navController.navigate(

@@ -13,15 +13,20 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,15 +42,16 @@ object MealHolder {
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodInputScreen(navController: NavHostController) {
     var foodName by remember { mutableStateOf("") }
     var timeEaten by remember { mutableStateOf("") }
     var dateEaten by remember { mutableStateOf("") }
     var place by remember { mutableStateOf("") }
-    var amountFullness by remember { mutableStateOf("") }
-    var tastiness by remember { mutableStateOf("") }
-    var rating by remember { mutableStateOf("") }
+    var amountFullness by remember { mutableFloatStateOf(0f) }
+    var tastiness by remember { mutableFloatStateOf(0f) }
+    var rating by remember { mutableFloatStateOf(0f) }
     var amountInGrams by remember { mutableStateOf("") }
 
 
@@ -80,9 +86,21 @@ fun FoodInputScreen(navController: NavHostController) {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
+        EditTextField(
+            value = amountInGrams,
+            onValueChanged = { amountInGrams = it },
+            label = R.string.food_amount_in_grams,
+            //leadingIcon = R.drawable.template,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Done
+            ),
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth(),
+        )
         //Input field for the
-        Row {
-            EditTextField(
+        EditTextField(
                 value = timeEaten,
                 onValueChanged = { timeEaten = it },
                 label = R.string.food_time_eaten,
@@ -95,7 +113,6 @@ fun FoodInputScreen(navController: NavHostController) {
                     .padding(bottom = 32.dp)
                     .fillMaxWidth(),
             )
-        }
         EditTextField(
             value = dateEaten,
             onValueChanged = { dateEaten = it },
@@ -116,64 +133,53 @@ fun FoodInputScreen(navController: NavHostController) {
             //leadingIcon = R.drawable.template,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-        )
-        EditTextField(
-            value = amountFullness,
-            onValueChanged = { amountFullness = it },
-            label = R.string.food_tastiness,
-            //leadingIcon = R.drawable.template,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-        )
-        EditTextField(
-            value = tastiness,
-            onValueChanged = { tastiness = it },
-            label = R.string.food_rating,
-            //leadingIcon = R.drawable.template,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-        )
-        EditTextField(
-            value = rating,
-            onValueChanged = { rating = it },
-            label = R.string.food_amount_fullness,
-            //leadingIcon = R.drawable.template,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-        )
-        EditTextField(
-            value = amountInGrams,
-            onValueChanged = { amountInGrams = it },
-            label = R.string.food_amount_in_grams,
-            //leadingIcon = R.drawable.template,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
+        Text(text = stringResource(id = R.string.food_amount_fullness))
+        Slider(
+            value = amountFullness,
+            onValueChange = { amountFullness = it },
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.secondary,
+                activeTrackColor = MaterialTheme.colorScheme.secondary,
+                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            steps = 8,
+            valueRange = 1f..10f
+        )
+        Text(text = amountFullness.toInt().toString())
+        Text(text = stringResource(id = R.string.food_tastiness))
+        Slider(
+            value = tastiness,
+            onValueChange = { tastiness = it },
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.secondary,
+                activeTrackColor = MaterialTheme.colorScheme.secondary,
+                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            steps = 8,
+            valueRange = 1f..10f
+        )
+        Text(text = tastiness.toInt().toString())
+
+        Text(text = stringResource(id = R.string.food_rating))
+        Slider(
+            value = rating,
+            onValueChange = { rating = it },
+            colors = SliderDefaults.colors(
+                thumbColor = MaterialTheme.colorScheme.secondary,
+                activeTrackColor = MaterialTheme.colorScheme.secondary,
+                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+            ),
+            steps = 8,
+            valueRange = 1f..10f
+        )
+        Text(text = rating.toInt().toString())
+
 
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = {
@@ -182,9 +188,9 @@ fun FoodInputScreen(navController: NavHostController) {
             meal.foodTimeEaten = timeEaten
             meal.foodDateEaten = dateEaten
             meal.foodPlace = place
-            meal.foodAmountFullness = amountFullness.toIntOrNull() ?: 0
-            meal.foodTastiness = tastiness.toIntOrNull() ?: 0
-            meal.rating = rating.toIntOrNull() ?: 0
+            meal.foodAmountFullness = amountFullness
+            meal.foodTastiness = tastiness
+            meal.rating = rating
             meal.amountInGrams = amountInGrams.toIntOrNull() ?: 0
 
                          },

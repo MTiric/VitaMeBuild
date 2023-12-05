@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VitaMe build</string>
+    <string name="app_name">VitaMe</string>
 
     <string name ="food_title_generic">My meal</string>
     <string name ="food_name">Food name</string>

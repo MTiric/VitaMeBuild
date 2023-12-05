@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="food_title_generic">Mi comida</string>
+    <string name="food_name">Nombre de la comida</string>
+    <string name="food_time_eaten">¿A qué hora comiste?</string>
+    <string name="food_date_eaten">¿Qué día comiste?</string>
+    <string name="food_place">¿Dónde comiste?</string>
+    <string name="food_amount_fullness">¿Qué tan lleno/a te sentiste?</string>
+    <string name="food_tastiness">¿Qué tan sabrosa estaba la comida?</string>
+    <string name="food_rating">Califica la comida</string>
+    <string name="food_amount_in_grams">Peso en gramos</string>
+    <string name="submit_button">Enviar</string>
+</resources>
