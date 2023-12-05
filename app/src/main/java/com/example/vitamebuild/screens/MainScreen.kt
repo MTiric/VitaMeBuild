@@ -8,9 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.classes.Food
+import com.example.vitamebuild.R
 
 @Composable
 fun MainScreen(navController: NavHostController) {
@@ -19,7 +21,7 @@ fun MainScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "My new meal!", fontSize =30.sp)
+        Text(text = stringResource(id = R.string.my_new_meal), fontSize =30.sp)
         Button(
             onClick = {
                 navController.navigate(
@@ -27,16 +29,7 @@ fun MainScreen(navController: NavHostController) {
                 )
             }
         ) {
-            Text(text = "Log meal")
-        }
-        Button(
-            onClick = {
-                navController.navigate(
-                    route = "FOOD_INPUT_SCREEN"
-                )
-            }
-        ) {
-            Text(text = "New meal")
+            Text(text = stringResource(id = R.string.log_meal))
         }
         Button(
             onClick = {
@@ -45,7 +38,7 @@ fun MainScreen(navController: NavHostController) {
                 )
             }
         ) {
-            Text(text = "Meal history")
+            Text(text = stringResource(id = R.string.meal_history))
         }
     }
 }

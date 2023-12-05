@@ -8,9 +8,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.screens.MealHolder
+import com.example.vitamebuild.R
 
 @Composable
 fun IsThisYourMeal(navController: NavHostController) {
@@ -19,7 +21,7 @@ fun IsThisYourMeal(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Is this your meal?", fontSize = 30.sp)
+        Text(text = stringResource(id = R.string.is_this_your_meal), fontSize = 30.sp)
         Text(text = MealHolder.meal.foodName)
         Text(text = MealHolder.meal.foodTimeEaten)
         Text(text = MealHolder.meal.foodDateEaten)
@@ -30,7 +32,7 @@ fun IsThisYourMeal(navController: NavHostController) {
                 )
             }
         ) {
-            Text(text = "No, that's not my meal")
+            Text(text = stringResource(id = R.string.no_its_not_my_meal))
         }
 
         Button(
@@ -40,7 +42,7 @@ fun IsThisYourMeal(navController: NavHostController) {
                 )
             }
         ) {
-            Text(text = "Yes, that is my meal")
+            Text(text = stringResource(id = R.string.yes_its_my_meal) )
         }
     }
 }

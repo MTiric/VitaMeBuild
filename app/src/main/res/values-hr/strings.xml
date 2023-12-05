@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="food_title_generic">Moje jelo</string>
+    <string name="food_name">Naziv hrane</string>
+    <string name="food_time_eaten">U koje vrijeme ste jeli?</string>
+    <string name="food_date_eaten">Koji dan ste jeli?</string>
+    <string name="food_place">Gdje ste jeli?</string>
+    <string name="food_amount_fullness">Koliko ste se osjećali siti?</string>
+    <string name="food_tastiness">Koliko je hrana bila ukusna?</string>
+    <string name="food_rating">Ocijenite hranu</string>
+    <string name="food_amount_in_grams">Težina u gramima</string>
+    <string name="submit_button">Pošalji</string>
+    <string name="is_this_your_meal">Je li ovo vaše jelo?</string>
+    <string name="yes_its_my_meal">Da, to je moje jelo</string>
+    <string name="no_its_not_my_meal">Ne, ovo nije moje jelo</string>
+</resources>

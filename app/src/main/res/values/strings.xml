@@ -11,4 +11,10 @@
     <string name ="food_rating">Rate the food</string>
     <string name ="food_amount_in_grams">Weight in grams</string>
     <string name ="submit_button">Submit</string>
+    <string name="is_this_your_meal">Is that your meal?</string>
+    <string name="yes_its_my_meal">Yes, that is my meal</string>
+    <string name="no_its_not_my_meal">No, this is not my meal</string>
+    <string name="my_new_meal">My new meal</string>
+    <string name="log_meal">Log meal</string>
+    <string name="meal_history">Meal history</string>
 </resources>
