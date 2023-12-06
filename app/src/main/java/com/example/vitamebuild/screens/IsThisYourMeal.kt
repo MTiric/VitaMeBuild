@@ -21,10 +21,11 @@ fun IsThisYourMeal(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = stringResource(id = R.string.is_this_your_meal), fontSize = 30.sp)
-        Text(text = MealHolder.meal.foodName)
-        Text(text = MealHolder.meal.foodTimeEaten)
-        Text(text = MealHolder.meal.foodDateEaten)
+        Text(text = stringResource(
+            id = R.string.is_this_your_meal,
+            MealHolder.meal.foodName,
+            MealHolder.meal.foodDateEaten,
+            MealHolder.meal.foodTimeEaten), fontSize = 30.sp)
         Button(
             onClick = {
                 navController.navigate(

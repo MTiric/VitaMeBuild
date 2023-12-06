@@ -1,6 +1,9 @@
 package com.example.vitamebuild.screens
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,12 +15,19 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -26,26 +36,52 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.R
 import com.example.vitamebuild.classes.Food
+import com.example.vitamebuild.graphicalInterfaces.BottomAppBarCustom
 import com.example.vitamebuild.graphicalInterfaces.EditTextField
+import com.example.vitamebuild.graphicalInterfaces.TopAppBarCustom
 import com.example.vitamebuild.screens.MealHolder.meal
 
 object MealHolder {
     var meal = Food("Pizza")
 }
 
+var curScreen = R.string.meal_input_screen
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodInputScreen(navController: NavHostController) {
-    var foodName by remember { mutableStateOf("") }
+    var detailedInput = false
+    Scaffold(
+        containerColor = Color.Unspecified,
+        topBar = {
+            TopAppBarCustom(navController, curScreen = curScreen )
+        },
+        bottomBar = {
+            BottomAppBarCustom(navController)}
+    ) {
+        FoodInputDetailed(navController)
+
+    }
+}
+
+@Composable
+fun FoodInputBasic(){
+    
+}
+@Composable
+fun FoodInputDetailed(navController: NavHostController) {
+    var foodName by remember { mutableStateOf(MealHolder.meal.foodName) }
     var timeEaten by remember { mutableStateOf("") }
     var dateEaten by remember { mutableStateOf("") }
     var place by remember { mutableStateOf("") }
@@ -54,12 +90,10 @@ fun FoodInputScreen(navController: NavHostController) {
     var rating by remember { mutableFloatStateOf(0f) }
     var amountInGrams by remember { mutableStateOf("") }
 
-
-
     Column(
         modifier = Modifier
             .statusBarsPadding()
-            .padding(horizontal = 40.dp)
+            .padding(horizontal = 40.dp, vertical = 40.dp)
             .verticalScroll(rememberScrollState())
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -86,33 +120,20 @@ fun FoodInputScreen(navController: NavHostController) {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
+        //Input field for the
         EditTextField(
-            value = amountInGrams,
-            onValueChanged = { amountInGrams = it },
-            label = R.string.food_amount_in_grams,
+            value = timeEaten,
+            onValueChanged = { timeEaten = it },
+            label = R.string.food_time_eaten,
             //leadingIcon = R.drawable.template,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next
             ),
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
-        //Input field for the
-        EditTextField(
-                value = timeEaten,
-                onValueChanged = { timeEaten = it },
-                label = R.string.food_time_eaten,
-                //leadingIcon = R.drawable.template,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
-                ),
-                modifier = Modifier
-                    .padding(bottom = 32.dp)
-                    .fillMaxWidth(),
-            )
         EditTextField(
             value = dateEaten,
             onValueChanged = { dateEaten = it },
@@ -133,6 +154,19 @@ fun FoodInputScreen(navController: NavHostController) {
             //leadingIcon = R.drawable.template,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            modifier = Modifier
+                .padding(bottom = 32.dp)
+                .fillMaxWidth(),
+        )
+        EditTextField(
+            value = amountInGrams,
+            onValueChanged = { amountInGrams = it },
+            label = R.string.food_amount_in_grams,
+            //leadingIcon = R.drawable.template,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
             modifier = Modifier
@@ -193,7 +227,7 @@ fun FoodInputScreen(navController: NavHostController) {
             meal.rating = rating
             meal.amountInGrams = amountInGrams.toIntOrNull() ?: 0
 
-                         },
+        },
             modifier = Modifier
                 .height(72.dp)
                 .fillMaxWidth()) {

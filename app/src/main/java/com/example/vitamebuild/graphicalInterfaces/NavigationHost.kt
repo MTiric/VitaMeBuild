@@ -10,6 +10,7 @@ import com.example.navigationcomponent.MealHistory
 import com.example.navigationcomponent.ScreenOne
 import com.example.navigationcomponent.ScreenTwo
 import com.example.vitamebuild.screens.FoodInputScreen
+import com.example.vitamebuild.screens.settings.SettingsScreen
 
 @Composable
 fun CustomNavHost(
@@ -36,6 +37,9 @@ fun CustomNavHost(
         }
         composable(route = "IS_THIS_YOUR_MEAL") {
             IsThisYourMeal(navController)
+        }
+        composable(route = "SETTINGS_SCREEN"){
+            SettingsScreen(navController)
         }
     }
 }
