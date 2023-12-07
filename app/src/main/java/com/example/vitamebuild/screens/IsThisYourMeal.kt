@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.vitamebuild.screens.MealHolder
+import com.example.vitamebuild.screens.foodInputScreens.MealHolder
 import com.example.vitamebuild.R
 
 @Composable

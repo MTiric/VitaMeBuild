@@ -24,6 +24,8 @@ class MainActivity : ComponentActivity() {
 
             VitaMeBuildTheme {
                 val backgroundColor = MaterialTheme.colorScheme.background
+
+                
                 // A surface container using the 'background' color from the theme
                 Surface(
 

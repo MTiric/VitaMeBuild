@@ -9,7 +9,9 @@ import com.example.navigationcomponent.MainScreen
 import com.example.navigationcomponent.MealHistory
 import com.example.navigationcomponent.ScreenOne
 import com.example.navigationcomponent.ScreenTwo
-import com.example.vitamebuild.screens.FoodInputScreen
+import com.example.vitamebuild.screens.foodInputScreens.FoodInputScreen
+import com.example.vitamebuild.screens.foodInputScreens.FoodInputTimeEaten
+import com.example.vitamebuild.screens.foodInputScreens.FoodInputTimeScreen
 import com.example.vitamebuild.screens.settings.SettingsScreen
 
 @Composable
@@ -40,6 +42,9 @@ fun CustomNavHost(
         }
         composable(route = "SETTINGS_SCREEN"){
             SettingsScreen(navController)
+        }
+        composable(route = "FOOD_INPUT_TIME_SCREEN"){
+            FoodInputTimeScreen(navController)
         }
     }
 }

@@ -2,6 +2,8 @@ package com.example.vitamebuild.classes
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.vitamebuild.generalFunctions.getCurrentHourAsInt
+import com.example.vitamebuild.generalFunctions.getCurrentMinuteAsInt
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -61,10 +63,22 @@ open class Food (var foodName: String) {
 
 
     fun getCurrentTimeAsString(): String {
-        val currentTime = LocalTime.now() // Get the current time
-        val formatter = DateTimeFormatter.ofPattern("HH:mm") // Define the format
+        var currentHourString = ""
+        var currentMinuteString = ""
 
-        return currentTime.format(formatter) // Convert time to string using the defined format
+        if(getCurrentHourAsInt()<10){
+            currentHourString = "0" + getCurrentHourAsInt().toString()
+        } else {
+            currentHourString = getCurrentHourAsInt().toString()
+        }
+
+        if(getCurrentMinuteAsInt()<10){
+            currentMinuteString = "0" + getCurrentMinuteAsInt().toString()
+        } else {
+            currentMinuteString = getCurrentMinuteAsInt().toString()
+        }
+
+        return "$currentHourString:$currentMinuteString"
     }
 
     fun getCurrentDateAsString(): String {
@@ -75,24 +89,4 @@ open class Food (var foodName: String) {
     }
 }
 
-fun createFoodObject(
-    foodName: String,
-    timeEaten: String,
-    dateEaten: String,
-    place: String,
-    amountFullness: Float,
-    tastiness: Float,
-    rating: Float,
-    amountInGrams: String
-): Food {
-    val food = Food(foodName)
-    food.foodTimeEaten = timeEaten
-    food.foodDateEaten = dateEaten
-    food.foodPlace = place
-    food.foodAmountFullness = amountFullness
-    food.foodTastiness = tastiness
-    food.rating = rating
-    food.amountInGrams = amountInGrams.toIntOrNull() ?: 0
-    return food
-}
 

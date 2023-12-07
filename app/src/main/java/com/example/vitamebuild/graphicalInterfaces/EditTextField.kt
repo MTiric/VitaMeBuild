@@ -17,11 +17,12 @@ fun EditTextField(
     keyboardOptions: KeyboardOptions,
     value: String, //current value to display
     onValueChanged: (String) -> Unit, //callback lambda, this is triggered when the value changes, makes the state be updated
+    singleLineState: Boolean,
     modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
-        singleLine = true,
+        singleLine = singleLineState,
         //leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
         modifier = modifier,
         onValueChange = onValueChanged,

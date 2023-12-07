@@ -27,4 +27,6 @@
     <string name="download_personal_data">Download personal data</string>
     <string name="erase_personal_data">Erase personal data</string>
     <string name="home">Home</string>
+    <string name="today_I_ate">Today I ate...</string>
+    <string name="at_around">... at around ...</string>
 </resources>
