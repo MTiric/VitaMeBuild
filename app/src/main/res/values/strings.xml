@@ -11,7 +11,7 @@
     <string name ="food_rating">Rate the food</string>
     <string name ="food_amount_in_grams">Weight in grams</string>
     <string name ="submit_button">Submit</string>
-    <string name="is_this_your_meal">You ate %1$s on %2$s at %3$s. </string>
+    <string name="is_this_your_meal">Today you ate %1$s at %2$s. </string>
     <string name="yes_its_my_meal">Yes, this is my meal</string>
     <string name="no_its_not_my_meal">No, this is not my meal</string>
     <string name="my_new_meal">My new meal</string>
@@ -19,7 +19,7 @@
     <string name="meal_history">Meal history</string>
     <string name="english">English</string>
     <string name="spanish">Español</string>
-    <string name="meal_input_screen">Record a new meal in your life</string>
+    <string name="meal_input_screen">Log a meal or a snack</string>
     <string name="setting">Settings</string>
     <string name="settings">Settings</string>
     <string name="units_of_measurement">Units of measurement</string>
@@ -29,4 +29,7 @@
     <string name="home">Home</string>
     <string name="today_I_ate">Today I ate...</string>
     <string name="at_around">... at around ...</string>
+    <string name="confirm">Confirm time</string>
+    <string name="select_time">Select time of the meal</string>
+    <string name="log_water_intake">Log water intake</string>
 </resources>

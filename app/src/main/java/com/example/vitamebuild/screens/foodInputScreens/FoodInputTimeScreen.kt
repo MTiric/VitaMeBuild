@@ -8,9 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import com.example.vitamebuild.DefaultMealHolder
 import com.example.vitamebuild.graphicalInterfaces.MyTimePickerMeal
 import com.example.vitamebuild.graphicalInterfaces.TimePickerTimeHolder
+import com.example.vitamebuild.R
 
 @Composable
 fun FoodInputTimeScreen(navController: NavHostController) {
@@ -19,17 +22,17 @@ fun FoodInputTimeScreen(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Select time of the meal")
+        Text(text = stringResource(id = R.string.select_time))
         MyTimePickerMeal()
         Button(
             onClick = {
                 navController.navigate(
                     route = "FOOD_INPUT_SCREEN"
                 )
-                MealHolder.meal.foodTimeEaten = TimePickerTimeHolder.timePickerTime
+                DefaultMealHolder.defaultMeal.foodTimeEaten = TimePickerTimeHolder.timePickerTime
             }
         ) {
-            Text(text = "Confirm")
+            Text(text = stringResource(id = R.string.confirm))
         }
     }
 }

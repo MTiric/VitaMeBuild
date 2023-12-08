@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
@@ -34,45 +32,28 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.vitamebuild.DefaultMealHolder
 import com.example.vitamebuild.R
 import com.example.vitamebuild.classes.Food
-import com.example.vitamebuild.graphicalInterfaces.BottomAppBarCustom
 import com.example.vitamebuild.graphicalInterfaces.EditTextField
-import com.example.vitamebuild.graphicalInterfaces.MyTimePickerMeal
-import com.example.vitamebuild.graphicalInterfaces.TopAppBarCustom
-import com.example.vitamebuild.screens.foodInputScreens.MealHolder.meal
+import com.example.vitamebuild.graphicalInterfaces.MyScaffold
 
 
-object MealHolder {
-    var meal = Food("")
-}
 
-var curScreen = R.string.meal_input_screen
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodInputScreen(navController: NavHostController) {
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            TopAppBarCustom(navController, curScreen = curScreen )
-        },
-        bottomBar = {
-            BottomAppBarCustom(navController)}
-    ) {
+    MyScaffold(navController,
+        currentScreen = R.string.meal_input_screen,
+        previousScren = "MAIN_SCREEN") {
         FoodInputDetailed(navController)
-
     }
 }
 
-@Composable
-fun FoodInputBasic(){
-    
-}
+
 @Composable
 fun FoodInputDetailed(navController: NavHostController) {
-
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -82,6 +63,7 @@ fun FoodInputDetailed(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Spacer(modifier = Modifier.height(50.dp))
         Text(
             text = stringResource(R.string.today_I_ate),
             style = MaterialTheme.typography.displaySmall,
@@ -105,7 +87,7 @@ fun FoodInputDetailed(navController: NavHostController) {
         //Input field for the place of the meal
         FoodInputPlaceEaten()
         //Input field for the amount of food in grams
-        FoodInputWeightInGrams()
+        //FoodInputWeightInGrams() //for now unused, will decide later if we will use this
         //Input slider for how full the person was feeling with this meal
         FoodInputFullness()
         //Input slider for the tastiness of the food
@@ -115,17 +97,22 @@ fun FoodInputDetailed(navController: NavHostController) {
 
 
         Spacer(modifier = Modifier.height(32.dp))
-        Button(onClick = {
-            navController.navigate("IS_THIS_YOUR_MEAL")
-
-        },
-            modifier = Modifier
-                .height(72.dp)
-                .fillMaxWidth()) {
-            Text(stringResource(R.string.submit_button))
-        }
+        SubmitFoodButton(navController)
 
         Spacer(modifier = Modifier.height(200.dp))
+    }
+}
+
+@Composable
+fun SubmitFoodButton(navController: NavHostController) {
+    Button(onClick = {
+        navController.navigate("IS_THIS_YOUR_MEAL")
+
+    },
+        modifier = Modifier
+            .height(72.dp)
+            .fillMaxWidth()) {
+        Text(stringResource(R.string.submit_button))
     }
 }
 
@@ -147,7 +134,7 @@ fun FoodInputRating() {
     )
     Text(text = rating.toInt().toString())
 
-    meal.rating = rating
+    DefaultMealHolder.defaultMeal.rating = rating
 }
 
 @Composable
@@ -168,7 +155,7 @@ fun FoodInputTastiness() {
     )
     Text(text = tastiness.toInt().toString())
 
-    meal.foodTastiness = tastiness
+    DefaultMealHolder.defaultMeal.foodTastiness = tastiness
 }
 
 @Composable
@@ -189,7 +176,7 @@ fun FoodInputFullness() {
     )
     Text(text = amountFullness.toInt().toString())
 
-    meal.foodAmountFullness = amountFullness
+    DefaultMealHolder.defaultMeal.foodAmountFullness = amountFullness
 }
 
 @Composable
@@ -211,7 +198,7 @@ fun FoodInputWeightInGrams() {
             .fillMaxWidth(),
     )
 
-    meal.amountInGrams = amountInGrams.toIntOrNull() ?: 0
+    DefaultMealHolder.defaultMeal.amountInGrams = amountInGrams.toIntOrNull() ?: 0
 }
 
 @Composable
@@ -233,12 +220,12 @@ fun FoodInputPlaceEaten() {
             .fillMaxWidth(),
     )
 
-    meal.foodPlace = place
+    DefaultMealHolder.defaultMeal.foodPlace = place
 }
 
 @Composable
 fun FoodInputDateEaten() {
-    var dateEaten by remember { mutableStateOf(MealHolder.meal.foodDateEaten) }
+    var dateEaten by remember { mutableStateOf(DefaultMealHolder.defaultMeal.foodDateEaten) }
 
     EditTextField(
         value = dateEaten,
@@ -254,12 +241,12 @@ fun FoodInputDateEaten() {
             .padding(bottom = 32.dp)
             .fillMaxWidth(),
     )
-    meal.foodDateEaten = dateEaten
+    DefaultMealHolder.defaultMeal.foodDateEaten = dateEaten
 }
 
 @Composable
 fun FoodInputFoodName() {
-    var foodName by remember { mutableStateOf(MealHolder.meal.foodName) }
+    var foodName by remember { mutableStateOf(DefaultMealHolder.defaultMeal.foodName) }
 
     EditTextField(
         value = foodName,
@@ -272,27 +259,23 @@ fun FoodInputFoodName() {
         ),
         singleLineState = false,
         modifier = Modifier
-            .padding(bottom = 32.dp)
+            .padding(bottom = 16.dp)
             .fillMaxWidth(),
     )
-    meal.foodName = foodName
+    DefaultMealHolder.defaultMeal.foodName = foodName
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodInputTimeEaten(navController: NavHostController) {
-
-    var timeEaten by remember { mutableStateOf(meal.foodTimeEaten) }
-
     Button(onClick = {
         navController.navigate(
         route = "FOOD_INPUT_TIME_SCREEN"
         ) }
     ) {
-        Text(text = meal.foodTimeEaten, fontSize =30.sp)
+        Text(text = DefaultMealHolder.defaultMeal.foodTimeEaten, fontSize =30.sp)
 
     }
-    
     Spacer(modifier = Modifier.height(30.dp))
 }
