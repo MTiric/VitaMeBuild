@@ -9,7 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.R
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
+import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToLogBowelMovementsButton
 import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToLogMealScreenButton
+import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToLogPersonalHealth
+import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToLogPhysicalActivityButton
 import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToLogWaterIntakeButton
 import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToMealHistoryButton
 import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.GoToSettingsScreenButton
@@ -29,10 +32,12 @@ fun MainScreenComposable(navController: NavHostController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        GoToLogWaterIntakeButton(navController)
         GoToLogMealScreenButton(navController)
-        GoToMealHistoryButton(navController)
-        GoToSettingsScreenButton(navController)
+        GoToLogWaterIntakeButton(navController)
+        GoToLogBowelMovementsButton(navController)
+        GoToLogPhysicalActivityButton(navController)
+        GoToLogPersonalHealth(navController)
+
+
     }
 }
-

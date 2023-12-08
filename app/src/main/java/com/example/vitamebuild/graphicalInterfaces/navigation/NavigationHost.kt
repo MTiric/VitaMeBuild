@@ -1,4 +1,4 @@
-package com.example.vitamebuild.graphicalInterfaces
+package com.example.vitamebuild.graphicalInterfaces.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
