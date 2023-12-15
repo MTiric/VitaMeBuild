@@ -26,14 +26,28 @@ class Nutrition(var name: String, val weightAmountInGrams: Int){
 //Creates a class for food below
 open class Food (var foodName: String) {
 
-    var foodTimeEaten: String = ""
-    var foodDateEaten: String = ""
+    var foodTimeEaten: String = getCurrentTimeAsString()
+    var foodDateEaten: String = getCurrentDateAsString()
     var foodPlace: String = ""
     var foodAmountFullness: Float = 0f
     var foodTastiness: Float = 0f
     var rating: Float = 0f
     var amountInGrams: Int = 0
-    var nutritiveInformation: Nutrition = Nutrition(foodName, 0)
+    var calories: Int = calculateWeightToCalories(foodName, amountInGrams)
+    var vitamins: MutableMap<String, Double> = getVitamins(foodName)
+
+    private fun getVitamins(foodName: String): MutableMap<String, Double> {
+        var foodVitamins: MutableMap<String, Double> = mutableMapOf("" to 0.0)
+        //fetch api data and put all data inside foodVitamins
+        return foodVitamins
+    }
+
+
+
+    private fun calculateWeightToCalories(foodName: String, amountInGrams: Int): Int {
+        //will calculate calories based on food and weight from API
+        return 0
+    }
 
 
     constructor(

@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.vitamebuild.DefaultMealHolder
+import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
 
 @Composable
@@ -23,8 +23,8 @@ fun IsThisYourMeal(navController: NavHostController) {
     ) {
         Text(text = stringResource(
             id = R.string.is_this_your_meal,
-            DefaultMealHolder.defaultMeal.foodName,
-            DefaultMealHolder.defaultMeal.foodTimeEaten), fontSize = 30.sp)
+            ObjectHolder.newMeal.foodName,
+            ObjectHolder.newMeal.foodTimeEaten), fontSize = 30.sp)
         Button(
             onClick = {
                 navController.navigate(

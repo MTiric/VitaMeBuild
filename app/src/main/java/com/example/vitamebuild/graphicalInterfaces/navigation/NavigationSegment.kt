@@ -29,12 +29,6 @@ fun NavigationSegment(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = segmentText,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
         Button(
             onClick = {
                 navController.navigate(

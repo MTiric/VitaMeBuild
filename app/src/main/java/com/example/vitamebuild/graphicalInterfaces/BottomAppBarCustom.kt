@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +48,7 @@ fun GoToGoalsScreenNavigationButton(navController: NavHostController) {
     NavigationSegment(
         navController,
         navRoute = "GOALS_SCREEN",
-        Icons.Default.Face,
+        Icons.Default.Star,
         segmentText = stringResource(id = R.string.goals),
         description = stringResource(id = R.string.settings)
 

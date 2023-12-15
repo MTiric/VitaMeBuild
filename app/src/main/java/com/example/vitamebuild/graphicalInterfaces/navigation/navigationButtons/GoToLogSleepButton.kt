@@ -9,11 +9,9 @@ import androidx.navigation.NavHostController
 import com.example.vitamebuild.R
 
 @Composable
-fun GoToLogPhysicalActivityButton(navController: NavHostController) {
-    MyButton(textID = R.string.log_physical_activity) {
-        navController.navigate(
-            route = "PHYSICAL_ACTIVITY_INPUT_SCREEN"
-        )
+fun GoToLogSleepButton(navController: NavHostController) {
+    MyButton(textID = R.string.log_sleep) {
+        navController.navigate( route = "SLEEP_INPUT_SCREEN")
+    
     }
-
 }

@@ -2,20 +2,30 @@ package com.example.vitamebuild.classes
 
 
 
-class Person (val nickname: String){
-    var height: Int = 0
-    var weight: Int = 0
-    var generalHappiness = 0
-    var weightGoal: Int = 0
-    var medicationStatus: String = ""
+class Person (var nickname: String){
+    var height: Double = 0.0
+    var heightInches: Double= convertToInches(height)
+    var weight: Double = 0.0
+    var weightPounds: Double = convertToPounds(weight)
+    var idealWeight: Double = WeightGoal()
+    var age: Int = 0
+    var sex: String = ""
+    var generalHappiness: Double = 0.0
+    var eatingStatus: String = ""
+    var lifestyle: String = ""
 
-    fun WeightGoalGuide(){
+
+    fun WeightGoal(): Double {
         //gives guidance for weight loss
+        return 50+(0.91*(height-152.4))
     }
 
+    private fun convertToPounds(weight: Double): Double {
+        return weight*2.20462262
+    }
 
-    fun Advisor() {
-        //gives general advices and tips to help lead a more healthy life
+    fun convertToInches(height: Double): Double {
+        return height/2.54
     }
 
 

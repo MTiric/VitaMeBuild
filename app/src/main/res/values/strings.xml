@@ -37,4 +37,24 @@
     <string name="history">Log history</string>
     <string name="personal_data">Personal data</string>
     <string name="goals">Goals</string>
+    <string name="today_I_drank">Today I drank ...</string>
+    <string name="of_water">... of water.</string>
+    <string name="log_sleep">Log sleep</string>
+    <string name="log_prayer_meditation">Log prayer/meditation</string>
+    <string name="log_personal_health">Log personal health</string>
+    <string name="last_night_I_went_to_sleep">Last night I went to sleep at ...</string>
+    <string name="and_I_woke_up">... and I woke up at ...</string>
+    <string name="how_many_times_did_you_wake_up">How many times did you wake up during the night?</string>
+    <string name="times_woken_up">Times woken up</string>
+    <string name="how_many_times_bathroom">How many times did you go to the bathroom?</string>
+    <string name="bathroom_count">Bathroom count</string>
+    <string name="rate_sleep_quality">Rate sleep quality</string>
+    <string name="save_settings">Save settings</string>
+    <string name="app_settings">App settings</string>
+    <string name="application_settings">Application settings</string>
+    <string name="set_font_size">Set font size</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="set_button_font_size">Set button font size</string>
 </resources>
