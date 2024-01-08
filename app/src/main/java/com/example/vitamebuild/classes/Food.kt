@@ -1,11 +1,18 @@
 package com.example.vitamebuild.classes
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.vitamebuild.ApiClient
+import com.example.vitamebuild.FoodResponse
+import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.generalFunctions.getCurrentDateAsString
 import com.example.vitamebuild.generalFunctions.getCurrentHourAsInt
 import com.example.vitamebuild.generalFunctions.getCurrentMinuteAsInt
 import com.example.vitamebuild.generalFunctions.getCurrentTimeAsString
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -36,6 +43,34 @@ open class Food (var foodName: String) {
     var calories: Int = calculateWeightToCalories(foodName, amountInGrams)
     var vitamins: MutableMap<String, Double> = getVitamins(foodName)
 
+
+    fun getFood() {
+        val searchTerm = "Pizza"
+
+        val call = ApiClient.apiServiceFoodApi.getFood(searchTerm)
+
+        call.enqueue(object : Callback<FoodResponse> {
+            override fun onResponse(
+                call: Call<FoodResponse>,
+                response: Response<FoodResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val food = response.body()
+                    if (food != null) {
+                        ObjectHolder.foodApiSearch = food
+                        for(foodInList in ObjectHolder.foodApiSearch.foods){
+                            Log.i("Test_Response", "onResponse: ${foodInList.description}")
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<FoodResponse>, t: Throwable) {
+                Log.i("Test_Response", "onResponse: it no worky", t)
+            }
+
+        })
+    }
     private fun getVitamins(foodName: String): MutableMap<String, Double> {
         var foodVitamins: MutableMap<String, Double> = mutableMapOf("" to 0.0)
         //fetch api data and put all data inside foodVitamins
