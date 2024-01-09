@@ -1,13 +1,21 @@
 package com.example.vitamebuild.screens.foodInputScreens
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -223,20 +231,35 @@ fun FoodInputDateEaten() {
 fun FoodInputFoodName() {
     var foodName by remember { mutableStateOf(ObjectHolder.newMeal.foodName) }
 
-    EditTextField(
-        value = foodName,
-        onValueChanged = { foodName = it },
-        label = R.string.food_name,
-        //leadingIcon = R.drawable.template,
-        keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Next
-        ),
-        singleLineState = false,
-        modifier = Modifier
-            .padding(bottom = 16.dp)
-            .fillMaxWidth(),
-    )
+    Row {
+        EditTextField(
+            value = foodName,
+            onValueChanged = { foodName = it },
+            label = R.string.food_name,
+            //leadingIcon = R.drawable.template,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
+            singleLineState = false,
+            modifier = Modifier
+                .padding(bottom = 16.dp)
+                .fillMaxWidth()
+                .weight(1f),
+
+        )
+        Button(onClick = { /*TODO*/ },
+            modifier = Modifier.fillMaxWidth().weight(0.25f).fillMaxHeight(
+
+            )) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "Search food",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+
+    }
     ObjectHolder.newMeal.foodName = foodName
 }
 

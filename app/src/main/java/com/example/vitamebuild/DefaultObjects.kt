@@ -9,6 +9,5 @@ object ObjectHolder {
     var newMeal = Food("")
     var waterIntake = Water(0)
     var settings = Settings(false)
-    val client = OkHttpClient()
     lateinit var foodApiSearch: FoodResponse
 }

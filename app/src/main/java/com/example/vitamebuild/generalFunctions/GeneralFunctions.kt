@@ -4,9 +4,42 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
+import android.util.Log
+import com.example.vitamebuild.ApiClient
+import com.example.vitamebuild.FoodResponse
+import com.example.vitamebuild.ObjectHolder
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+fun getFoodList(searchTerm: String) {
+
+    val call = ApiClient.apiServiceFoodApi.getFood(searchTerm)
+
+    call.enqueue(object : Callback<FoodResponse> {
+        override fun onResponse(
+            call: Call<FoodResponse>,
+            response: Response<FoodResponse>
+        ) {
+            if(response.isSuccessful) {
+                val food = response.body()
+                if (food != null) {
+                    ObjectHolder.foodApiSearch = food
+                    for(foodInList in ObjectHolder.foodApiSearch.foods){
+                        Log.i("Test_Response", "onResponse: ${foodInList.description}")
+                    }
+                }
+            }
+        }
+
+        override fun onFailure(call: Call<FoodResponse>, t: Throwable) {
+            Log.i("Test_Response", "onResponse: it no worky", t)
+        }
+
+    })
+}
 fun getCurrentHourAsInt(): Int{
     val calendar = Calendar.getInstance()
     return calendar.get(Calendar.HOUR_OF_DAY)

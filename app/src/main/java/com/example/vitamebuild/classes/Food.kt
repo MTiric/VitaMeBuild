@@ -40,37 +40,11 @@ open class Food (var foodName: String) {
     var foodTastiness: Float = 0f
     var rating: Float = 0f
     var amountInGrams: Int = 0
+    var foodContent = FoodContent("No food yet")
     var calories: Int = calculateWeightToCalories(foodName, amountInGrams)
     var vitamins: MutableMap<String, Double> = getVitamins(foodName)
 
 
-    fun getFood() {
-        val searchTerm = "Pizza"
-
-        val call = ApiClient.apiServiceFoodApi.getFood(searchTerm)
-
-        call.enqueue(object : Callback<FoodResponse> {
-            override fun onResponse(
-                call: Call<FoodResponse>,
-                response: Response<FoodResponse>
-            ) {
-                if(response.isSuccessful) {
-                    val food = response.body()
-                    if (food != null) {
-                        ObjectHolder.foodApiSearch = food
-                        for(foodInList in ObjectHolder.foodApiSearch.foods){
-                            Log.i("Test_Response", "onResponse: ${foodInList.description}")
-                        }
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<FoodResponse>, t: Throwable) {
-                Log.i("Test_Response", "onResponse: it no worky", t)
-            }
-
-        })
-    }
     private fun getVitamins(foodName: String): MutableMap<String, Double> {
         var foodVitamins: MutableMap<String, Double> = mutableMapOf("" to 0.0)
         //fetch api data and put all data inside foodVitamins
@@ -115,5 +89,14 @@ open class Food (var foodName: String) {
 
 
 }
+
+class FoodContent (var description: String) {
+    var fdcId: Int = 0
+    var dataType: String = ""
+    lateinit var tags: List<String>
+    var foodCategory: String = ""
+    var foodCategoryId: Int = 0
+}
+
 
 
