@@ -53,16 +53,17 @@ interface ApiService {
 }
 
 data class FoodResponse(
-    val totalHits: Int,
-    val foods: List<FoodContent>
+    var totalHits: Int,
+    var foods: List<FoodContent>
 )
 data class FoodContent(
-    val fdcId: Int,
-    val description: String,
-    val dataType: String,
-    val tags: List<String>,
-    val foodCategory: String,
-    val foodCategoryId: Int
+    var fdcId: Int,
+    var description: String,
+    var dataType: String,
+    var foodCategory: String,
+    var foodCategoryId: Int,
+    var brandName: String,
+    var ingredients: String
 
 )
 data class User (

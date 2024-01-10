@@ -57,4 +57,6 @@
     <string name="medium">Medium</string>
     <string name="large">Large</string>
     <string name="set_button_font_size">Set button font size</string>
+    <string name="food_internet_data">Food internet data</string>
+    <string name="available_foods">Available foods from internet</string>
 </resources>

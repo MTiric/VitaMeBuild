@@ -17,6 +17,7 @@ import com.example.vitamebuild.screens.PersonalDataScreen
 import com.example.vitamebuild.screens.PhysicalActivityInputScreen
 import com.example.vitamebuild.screens.PrayerMeditationScreen
 import com.example.vitamebuild.screens.SleepInputScreen
+import com.example.vitamebuild.screens.foodInputScreens.FoodInputFetchedMeal
 import com.example.vitamebuild.screens.foodInputScreens.FoodInputScreen
 import com.example.vitamebuild.screens.foodInputScreens.FoodInputTimeScreen
 import com.example.vitamebuild.screens.settingsScreens.SettingsScreen
@@ -38,6 +39,9 @@ fun CustomNavHost(
         }
         composable(route = "FOOD_INPUT_SCREEN") {
             FoodInputScreen(navController)
+        }
+        composable(route = "FOOD_INTERNET_DATA_SCREEN") {
+            FoodInputFetchedMeal(navController)
         }
         composable(route = "MAIN_SCREEN") {
             MainScreen(navController)

@@ -1,5 +1,6 @@
 package com.example.vitamebuild
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -53,9 +54,7 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     ObjectHolder.settings  = ObjectHolder.settings.loadFromIniFile(context)
                     val navController = rememberNavController()
-                    //CustomNavHost(navController = navController)
-                    //Text(text = ObjectHolder.foodApiSearch.foods[0].description)
-                    LoadingIndicator()
+                    CustomNavHost(navController = navController)
 
                 }
             }
@@ -65,6 +64,7 @@ class MainActivity : ComponentActivity() {
     }
 
 }
+
 
 @Composable
 fun LoadingIndicator() {
@@ -80,14 +80,12 @@ fun LoadingIndicator() {
     ) {
         Button(onClick = {
             loading = true
-            var hasSucceded = false
-            var numberOfTriesRemaining = 3
             scope.launch {
-                getFoodList("peanuts")
+                getFoodList("horse")
                 loadProgress { progress ->
                     currentProgress = progress
                 }
-                for (i in 0..2) {
+                for (i in 0..5) {
                     try {
                         foodDescription = ObjectHolder.foodApiSearch.foods[0].description
                         Log.i("Test_Response", "onResponsefromButton: ${ObjectHolder.foodApiSearch.foods[0].description}")
@@ -109,6 +107,11 @@ fun LoadingIndicator() {
                 modifier = Modifier.fillMaxWidth(),
             )
         }
+
+        for (i in ObjectHolder.foodApiSearch.foods) {
+            Text(text = "Hello world!")
+        }
+
 
     }
 }

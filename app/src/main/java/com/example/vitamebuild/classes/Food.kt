@@ -40,7 +40,7 @@ open class Food (var foodName: String) {
     var foodTastiness: Float = 0f
     var rating: Float = 0f
     var amountInGrams: Int = 0
-    var foodContent = FoodContent("No food yet")
+    var foodContent = FoodContentGlobal("No food yet")
     var calories: Int = calculateWeightToCalories(foodName, amountInGrams)
     var vitamins: MutableMap<String, Double> = getVitamins(foodName)
 
@@ -90,12 +90,13 @@ open class Food (var foodName: String) {
 
 }
 
-class FoodContent (var description: String) {
-    var fdcId: Int = 0
-    var dataType: String = ""
-    lateinit var tags: List<String>
-    var foodCategory: String = ""
-    var foodCategoryId: Int = 0
+class FoodContentGlobal (var description: String) {
+    var fdcId: Int? = 0
+    var dataType: String? = ""
+    var foodCategory: String? = ""
+    var foodCategoryId: Int? = 0
+    var brandName: String? = ""
+    var ingredients: String? = ""
 }
 
 
