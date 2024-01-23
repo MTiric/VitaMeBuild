@@ -86,7 +86,7 @@ fun GoToHomeScreenNavigationButton(navController: NavHostController) {
 fun GoToHistoryScreenNavigationButton(navController: NavHostController) {
     NavigationSegment(
             navController,
-    navRoute = "LOG_HISTORY_SCREEN",
+    navRoute = "MEAL_HISTORY",
     Icons.Default.DateRange,
     segmentText = stringResource(id = R.string.history),
     description = stringResource(id = R.string.history)

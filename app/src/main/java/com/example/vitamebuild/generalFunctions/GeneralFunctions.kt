@@ -8,12 +8,41 @@ import android.util.Log
 import com.example.vitamebuild.ApiClient
 import com.example.vitamebuild.FoodResponse
 import com.example.vitamebuild.ObjectHolder
+import com.example.vitamebuild.classes.Food
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.io.File
+import com.google.gson.GsonBuilder
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
+fun saveToJsonFoodData(context: android.content.Context){
+    val gson = Gson()
+
+
+    val jsonFoodList: String = gson.toJson(ObjectHolder.globalMealHistoryList)
+    Log.i("TestStoredValue", "jsonString: $jsonFoodList")
+    try {
+        File(context.filesDir,"FoodHistory.json").writeText(jsonFoodList)
+    } catch (e: Exception) {
+        Log.i("TestStoredValue", "error: ${e.message}")
+    }
+
+
+}
+
+fun loadJsonFileFoodData(context: android.content.Context){
+    val jsonString = File(context.filesDir,"FoodHistory.json").readText()
+
+    val gson = Gson()
+    val foodType = object : TypeToken<List<Food>>() {}.type
+    ObjectHolder.globalMealHistoryList = gson.fromJson<List<Food>>(jsonString, foodType).toMutableList()
+    Log.i("TestStoredValue", "jsonString on load: $jsonString")
+
+}
 fun getFoodList(searchTerm: String) {
 
     val call = ApiClient.apiServiceFoodApi.getFood(searchTerm)

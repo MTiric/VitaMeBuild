@@ -12,4 +12,6 @@ object ObjectHolder {
     var settings = Settings(false)
     lateinit var foodApiSearch: FoodResponse
     var globalFoodContent = FoodContentGlobal("No content yet")
+    var globalMealHistoryList: MutableList<Food> = mutableListOf()
+    var globalIndex: Int = 0
 }

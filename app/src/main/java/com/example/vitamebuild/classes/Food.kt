@@ -45,6 +45,7 @@ open class Food (var foodName: String) {
     var vitamins: MutableMap<String, Double> = getVitamins(foodName)
 
 
+    private fun storeFoodDataToJson(){}
     private fun getVitamins(foodName: String): MutableMap<String, Double> {
         var foodVitamins: MutableMap<String, Double> = mutableMapOf("" to 0.0)
         //fetch api data and put all data inside foodVitamins

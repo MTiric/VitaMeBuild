@@ -2,6 +2,7 @@ package com.example.vitamebuild.screens.foodInputScreens
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -33,6 +36,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -61,6 +65,38 @@ fun FoodInputScreen(navController: NavHostController) {
         FoodInputDetailed(navController)
     }
 }
+
+@Composable
+fun FoodInputDetailed(navController: NavHostController) {
+    MyStyleColumn(textContent = R.string.today_I_ate) {
+        Spacer(modifier = Modifier.height(100.dp))
+
+        //Input for the name of the food
+        FoodInputFoodName(navController)
+        InputScreenText(textContent = R.string.at_around)
+        //Input field for the time of the meal, by default it's now
+        FoodInputTimeEaten(navController)
+        //Input field for the date of the meal, by default it's today
+        //FoodInputDateEaten() //for now unused
+        //Input field for the place of the meal
+        FoodInputPlaceEaten()
+        //Input field for the amount of food in grams
+        //FoodInputWeightInGrams() //for now unused, will decide later if we will use this
+        //Input slider for how full the person was feeling with this meal
+        FoodInputFullness()
+        //Input slider for the tastiness of the food
+        FoodInputTastiness()
+        //Input slider for the rating of the food
+        FoodInputRating()
+
+
+        Spacer(modifier = Modifier.height(32.dp))
+        SubmitButton(navController, "IS_THIS_YOUR_MEAL")
+
+        Spacer(modifier = Modifier.height(200.dp))
+    }
+}
+
 
 @Composable
 fun FoodInputFetchedMeal(navController: NavHostController) {
@@ -101,6 +137,7 @@ fun FoodInputFetchedMeal(navController: NavHostController) {
             }
             if (showDialog) {
                 AlertDialog(
+
                     onDismissRequest = {
                         showDialog = false
                     },
@@ -108,12 +145,23 @@ fun FoodInputFetchedMeal(navController: NavHostController) {
                         Text(text = ObjectHolder.newMeal.foodContent.description)
                     },
                     text = {
-                        ObjectHolder.newMeal.foodContent.ingredients?.let { Text(text = it) }
+                        Column (
+                            modifier = Modifier
+                                .statusBarsPadding()
+                                .padding(horizontal = 4.dp, vertical = 40.dp)
+                                .verticalScroll(rememberScrollState())
+                                .safeDrawingPadding(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center) {
+                            ObjectHolder.newMeal.foodContent.ingredients?.let { Text(text = it) }
+                        }
+
                     },
                     confirmButton = {
                         Button(
                             onClick = {
                                 showDialog = false
+                                navController.navigate("FOOD_INPUT_SCREEN")
                                 // Perform the actions upon confirmation
                             }
                         ) {
@@ -139,36 +187,6 @@ fun FoodInputFetchedMeal(navController: NavHostController) {
 
     }
 }
-@Composable
-fun FoodInputDetailed(navController: NavHostController) {
-    MyStyleColumn(textContent = R.string.today_I_ate) {
-        Spacer(modifier = Modifier.height(100.dp))
-
-        //Input for the name of the food
-        FoodInputFoodName(navController)
-        InputScreenText(textContent = R.string.at_around)
-        //Input field for the time of the meal, by default it's now
-        FoodInputTimeEaten(navController)
-        //Input field for the date of the meal, by default it's today
-        //FoodInputDateEaten() //for now unused
-        //Input field for the place of the meal
-        FoodInputPlaceEaten()
-        //Input field for the amount of food in grams
-        //FoodInputWeightInGrams() //for now unused, will decide later if we will use this
-        //Input slider for how full the person was feeling with this meal
-        FoodInputFullness()
-        //Input slider for the tastiness of the food
-        FoodInputTastiness()
-        //Input slider for the rating of the food
-        FoodInputRating()
-
-
-        Spacer(modifier = Modifier.height(32.dp))
-        SubmitButton(navController, "IS_THIS_YOUR_MEAL")
-
-        Spacer(modifier = Modifier.height(200.dp))
-    }
-}
 
 @Composable
 fun SubmitButton(
@@ -188,7 +206,8 @@ fun SubmitButton(
 
 @Composable
 fun FoodInputRating() {
-    var rating by remember { mutableFloatStateOf(0f) }
+    var rating by remember { mutableFloatStateOf(ObjectHolder.newMeal.rating
+    ) }
 
     Text(text = stringResource(id = R.string.food_rating))
     Slider(
@@ -209,7 +228,7 @@ fun FoodInputRating() {
 
 @Composable
 fun FoodInputTastiness() {
-    var tastiness by remember { mutableFloatStateOf(0f) }
+    var tastiness by remember { mutableFloatStateOf(ObjectHolder.newMeal.foodTastiness) }
 
     Text(text = stringResource(id = R.string.food_tastiness))
     Slider(
@@ -230,7 +249,7 @@ fun FoodInputTastiness() {
 
 @Composable
 fun FoodInputFullness() {
-    var amountFullness by remember { mutableFloatStateOf(0f) }
+    var amountFullness by remember { mutableFloatStateOf(ObjectHolder.newMeal.foodAmountFullness) }
 
     Text(text = stringResource(id = R.string.food_amount_fullness))
     Slider(
@@ -273,7 +292,7 @@ fun FoodInputWeightInGrams() {
 
 @Composable
 fun FoodInputPlaceEaten() {
-    var place by remember { mutableStateOf("") }
+    var place by remember { mutableStateOf(ObjectHolder.newMeal.foodPlace) }
 
     EditTextField(
         value = place,

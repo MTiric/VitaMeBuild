@@ -1,6 +1,7 @@
 package com.example.vitamebuild.screens.settingsScreens
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -127,9 +128,12 @@ fun SavePropertyToIniFile (
             FileWriter(file).use { writer ->
                 properties.store(writer, "Settings INI File")
             }
+            Log.i("SaveSettings", "saved data test: Storage successful")
 
         } catch (e: Exception) {
             e.printStackTrace()
+            Log.i("SaveSettings", "error: ${e.message}")
+
         }
 
 }
@@ -148,9 +152,11 @@ fun SaveToIniButton(context: android.content.Context) {
                 FileWriter(file).use { writer ->
                     properties.store(writer, "Settings INI File")
                 }
+                Log.i("SaveSettings", "saved data test: Storage successful")
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.i("SaveSettings", "Storage not successful, error: ${e.message}")
             }
 
     }) {

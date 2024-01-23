@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.example.vitamebuild.generalFunctions.getFoodList
+import com.example.vitamebuild.generalFunctions.loadJsonFileFoodData
 import com.example.vitamebuild.graphicalInterfaces.navigation.CustomNavHost
 import com.example.vitamebuild.ui.theme.VitaMeBuildTheme
 import kotlinx.coroutines.delay
@@ -53,6 +54,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val context = LocalContext.current
                     ObjectHolder.settings  = ObjectHolder.settings.loadFromIniFile(context)
+                    loadJsonFileFoodData(context)
                     val navController = rememberNavController()
                     CustomNavHost(navController = navController)
 
@@ -65,56 +67,6 @@ class MainActivity : ComponentActivity() {
 
 }
 
-
-@Composable
-fun LoadingIndicator() {
-    var currentProgress by remember { mutableStateOf(0f)   }
-    var loading by remember { mutableStateOf(false)  }
-    var foodDescription by remember { mutableStateOf(ObjectHolder.newMeal.foodContent.description) }
-    val scope = rememberCoroutineScope()
-
-    Column (
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Button(onClick = {
-            loading = true
-            scope.launch {
-                getFoodList("horse")
-                loadProgress { progress ->
-                    currentProgress = progress
-                }
-                for (i in 0..5) {
-                    try {
-                        foodDescription = ObjectHolder.foodApiSearch.foods[0].description
-                        Log.i("Test_Response", "onResponsefromButton: ${ObjectHolder.foodApiSearch.foods[0].description}")
-                        loading = false
-                    } catch (e: Exception) {
-                        Log.i("Test_Response", "onResponse: api call fail #${i}")
-                        delay(1000)
-                    }
-                }
-
-            }
-        }, enabled = !loading) {
-            Text(text = foodDescription)
-        }
-
-        if (loading) {
-            LinearProgressIndicator(
-                progress =  currentProgress ,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-
-        for (i in ObjectHolder.foodApiSearch.foods) {
-            Text(text = "Hello world!")
-        }
-
-
-    }
-}
 
 suspend fun loadProgress(updateProgress: (Float) -> Unit) {
     for (i in 1..100) {
