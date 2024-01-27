@@ -1,4 +1,5 @@
 package com.example.vitamebuild
+import kotlinx.serialization.Serializable
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Call
@@ -38,6 +39,13 @@ object ApiClient {
     }
 }
 
+@Serializable
+data class Post(
+    val userId: Int,
+    val id: Int,
+    val title: String,
+    val body: String
+)
 
 interface ApiService {
     @GET("posts/{id}")
@@ -71,9 +79,4 @@ data class User (
 )
 
 
-data class Post(
-    //val userId: String,
-    //val id: String,
-    val title: String,
-    //val body: String
-)
+

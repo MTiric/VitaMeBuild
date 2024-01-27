@@ -45,15 +45,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.ObjectHolder
+import com.example.vitamebuild.Post
 import com.example.vitamebuild.R
 import com.example.vitamebuild.generalFunctions.getFoodList
 import com.example.vitamebuild.graphicalInterfaces.EditTextField
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
-import com.example.vitamebuild.loadProgress
+import com.example.vitamebuild.generalFunctions.loadProgress
 import com.example.vitamebuild.screens.waterInputScreens.InputScreenText
 import com.example.vitamebuild.screens.waterInputScreens.MyStyleColumn
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.get
+import io.ktor.client.request.url
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -340,6 +348,13 @@ fun FoodInputFoodName(navController: NavHostController) {
     var loading by remember { mutableStateOf(false)  }
     var foodDescription by remember { mutableStateOf(ObjectHolder.newMeal.foodContent.description) }
     val scope = rememberCoroutineScope()
+    val httpClient = HttpClient(Android) {
+        install(JsonFeature) {
+           serializer = KotlinxSerializer(Json {
+                ignoreUnknownKeys = true
+           })
+        }
+    }
 
     Row {
         EditTextField(
@@ -360,12 +375,32 @@ fun FoodInputFoodName(navController: NavHostController) {
         )
         Button(onClick = {
             loading = true
+
+
+
+            scope.launch {
+                try {
+                    val posts =
+                        httpClient.get<String> { url(" http://192.168.1.3:5000/Hello") }
+                    Log.i("Test_Response", "Success: ${posts}")
+                } catch (e: Exception) {
+                    Log.i("Test_Response", "Exception ${e.message}")
+                }
+
+                finally {
+                    httpClient.close()
+                }
+
+            }
+
+
+            /*
             scope.launch {
                 getFoodList(foodName)
                 loadProgress { progress ->
                     currentProgress = progress
                 }
-                val timerInSecondsLimit = 20
+                val timerInSecondsLimit = 10
                 for (i in 0..timerInSecondsLimit) {
                     try {
                         foodDescription = ObjectHolder.foodApiSearch.foods[0].description
@@ -382,7 +417,7 @@ fun FoodInputFoodName(navController: NavHostController) {
                     }
                 }
 
-            }
+            }*/
 
                          }, enabled = !loading,
             modifier = Modifier
