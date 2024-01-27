@@ -33,7 +33,7 @@ fun MyTimePickerMeal(){
         timePickerMinuteString = "0${timePickerState.minute}"
     } else { timePickerMinuteString = "${timePickerState.minute}" }
 
-    TimePickerTimeHolder.timePickerTime = "$timePickerHourString : $timePickerMinuteString"
-    Text(text = "$timePickerHourString : $timePickerMinuteString")
+    TimePickerTimeHolder.timePickerTime = "$timePickerHourString:$timePickerMinuteString"
+    Text(text = "$timePickerHourString:$timePickerMinuteString")
 }
 

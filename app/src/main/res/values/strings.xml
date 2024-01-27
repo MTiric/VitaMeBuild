@@ -63,4 +63,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="edit_parameters">Edit meal parameters</string>
+    <string name="synchronize_data">Synchronize data</string>
 </resources>

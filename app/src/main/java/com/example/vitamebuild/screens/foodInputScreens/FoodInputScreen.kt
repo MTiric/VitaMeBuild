@@ -53,12 +53,16 @@ import com.example.vitamebuild.graphicalInterfaces.MyScaffold
 import com.example.vitamebuild.generalFunctions.loadProgress
 import com.example.vitamebuild.screens.waterInputScreens.InputScreenText
 import com.example.vitamebuild.screens.waterInputScreens.MyStyleColumn
+import com.google.gson.Gson
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
+import io.ktor.client.request.post
 import io.ktor.client.request.url
+import io.ktor.content.TextContent
+import io.ktor.http.ContentType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
@@ -348,13 +352,7 @@ fun FoodInputFoodName(navController: NavHostController) {
     var loading by remember { mutableStateOf(false)  }
     var foodDescription by remember { mutableStateOf(ObjectHolder.newMeal.foodContent.description) }
     val scope = rememberCoroutineScope()
-    val httpClient = HttpClient(Android) {
-        install(JsonFeature) {
-           serializer = KotlinxSerializer(Json {
-                ignoreUnknownKeys = true
-           })
-        }
-    }
+
 
     Row {
         EditTextField(
@@ -377,21 +375,6 @@ fun FoodInputFoodName(navController: NavHostController) {
             loading = true
 
 
-
-            scope.launch {
-                try {
-                    val posts =
-                        httpClient.get<String> { url(" http://192.168.1.3:5000/Hello") }
-                    Log.i("Test_Response", "Success: ${posts}")
-                } catch (e: Exception) {
-                    Log.i("Test_Response", "Exception ${e.message}")
-                }
-
-                finally {
-                    httpClient.close()
-                }
-
-            }
 
 
             /*

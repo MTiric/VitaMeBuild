@@ -23,8 +23,17 @@ import com.example.vitamebuild.classes.Food
 import com.example.vitamebuild.generalFunctions.saveToJsonFoodData
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
 import com.example.vitamebuild.screens.waterInputScreens.MyStyleColumn
+import com.google.gson.Gson
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.android.Android
+import io.ktor.client.features.json.JsonFeature
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.post
+import io.ktor.content.TextContent
+import io.ktor.http.ContentType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -35,6 +44,37 @@ fun HistoryScreen(navController: NavHostController) {
         currentScreenName = R.string.meal_history,
         previousScreenRoute = "MAIN_SCREEN") {
         MyStyleColumn(textContent = R.string.history_of_eaten_meals) {
+            val httpClient = HttpClient(Android) {
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer(Json {
+                        ignoreUnknownKeys = true
+                    })
+                }
+            }
+            val scope = rememberCoroutineScope()
+            Button(onClick = {
+                scope.launch {
+                    try {
+                        val gson = Gson()
+                        val jsonFoodList: String = gson.toJson(ObjectHolder.globalMealHistoryList)
+                        val posts =
+                            httpClient.post<String>( "http://192.168.1.3:5000/create-food-data") {
+                                body = TextContent(jsonFoodList, ContentType.Application.Json)
+
+                            }
+                        Log.i("Test_Response", "Success: ${posts}")
+                    } catch (e: Exception) {
+                        Log.i("Test_Response", "Exception ${e.message}")
+                    }
+
+                    finally {
+                        httpClient.close()
+                    }
+                }
+
+            }) {
+                Text(text = stringResource(id = R.string.synchronize_data))
+            }
             ObjectHolder.globalMealHistoryList.forEachIndexed { index, food ->
                 MealHistorySegment(food = food, index = index, navController) {}
                 
