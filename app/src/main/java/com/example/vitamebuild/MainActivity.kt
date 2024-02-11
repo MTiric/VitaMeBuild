@@ -46,6 +46,7 @@ import java.security.KeyPair
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : ComponentActivity() {
@@ -126,6 +127,12 @@ class MainActivity : ComponentActivity() {
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ObjectHolder.threadPool.shutdown()
+        ObjectHolder.threadPool.awaitTermination(1, TimeUnit.MINUTES)
     }
 
 }

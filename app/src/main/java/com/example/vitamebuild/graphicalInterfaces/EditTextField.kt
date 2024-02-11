@@ -8,6 +8,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -18,6 +20,7 @@ fun EditTextField(
     value: String, //current value to display
     onValueChanged: (String) -> Unit, //callback lambda, this is triggered when the value changes, makes the state be updated
     singleLineState: Boolean,
+    applyVisualTransformation: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     TextField(
@@ -27,6 +30,7 @@ fun EditTextField(
         modifier = modifier,
         onValueChange = onValueChanged,
         label = { Text(stringResource(label)) },
+        visualTransformation = if (applyVisualTransformation) PasswordVisualTransformation() else VisualTransformation.None,
         keyboardOptions = keyboardOptions
     )
 }

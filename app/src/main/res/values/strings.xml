@@ -64,4 +64,18 @@
     <string name="delete">Delete</string>
     <string name="edit_parameters">Edit meal parameters</string>
     <string name="synchronize_data">Synchronize data</string>
+    <string name="deleted">Meal deleted!</string>
+    <string name="register">Register</string>
+    <string name="signIn">Sign In</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="email">E-mail address</string>
+    <string name="confirmationScreen">Confirmation screen</string>
+    <string name="confirmationMessage">Confirmation mail sent! Check your mail address</string>
+    <string name="nickname">Nickname</string>
+    <string name="weight">Weight in kg</string>
+    <string name="age">Age</string>
+    <string name="sex">Sex</string>
+    <string name="height">Height in cm</string>
 </resources>

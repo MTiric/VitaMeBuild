@@ -13,6 +13,7 @@ class Person (var nickname: String){
     var generalHappiness: Double = 0.0
     var eatingStatus: String = ""
     var lifestyle: String = ""
+    var authorized: Boolean = false
 
 
     fun WeightGoal(): Double {
@@ -24,7 +25,7 @@ class Person (var nickname: String){
         return weight*2.20462262
     }
 
-    fun convertToInches(height: Double): Double {
+    private fun convertToInches(height: Double): Double {
         return height/2.54
     }
 
