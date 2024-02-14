@@ -78,4 +78,14 @@
     <string name="age">Age</string>
     <string name="sex">Sex</string>
     <string name="height">Height in cm</string>
+    <string name="fontStyle">Select font style</string>
+    <string name="defaultFont">Default font</string>
+    <string name="cursive">Cursive font style</string>
+    <string name="serif">Serif font style</string>
+    <string name="button_style">Button style</string>
+    <string name="button_style_1">Button style 1</string>
+    <string name="button_style_2">Button style 2</string>
+    <string name="synchronized_data">Data is synchronized</string>
+    <string name="download_recipes">Download recipes :)</string>
+
 </resources>

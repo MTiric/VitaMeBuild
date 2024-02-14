@@ -25,6 +25,7 @@ import com.example.vitamebuild.R
 import com.example.vitamebuild.classes.Food
 import com.example.vitamebuild.generalFunctions.saveToJsonFoodData
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
+import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.MyButton
 import com.example.vitamebuild.screens.waterInputScreens.MyStyleColumn
 import com.google.gson.Gson
 import io.ktor.client.HttpClient
@@ -36,6 +37,7 @@ import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.url
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -60,6 +62,8 @@ fun HistoryScreen(navController: NavHostController) {
 
             LastTimeSinceRecordedMealButton()
 
+            DownloadRecipesButton()
+
             ObjectHolder.globalMealHistoryList.forEachIndexed { index, food ->
                 MealHistorySegment(food = food, index = index, navController) {}
                 
@@ -73,41 +77,62 @@ fun HistoryScreen(navController: NavHostController) {
 }
 
 @Composable
+fun DownloadRecipesButton() {
+    MyButton(textID = R.string.download_recipes) {
+
+    }
+}
+
+@Composable
 fun SynchronizeButton() {
     val scope = rememberCoroutineScope()
+    var synchronisationText: String = stringResource(id = R.string.synchronize_data)
+    var synchronizedText:String = stringResource(id = R.string.synchronized_data)
+    var buttonText by remember { mutableStateOf(synchronisationText) }
 
     Button(onClick = {
-        scope.launch {
-            val httpClient = HttpClient(Android) {
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(Json {
-                        ignoreUnknownKeys = true
-                    })
-                }
-            }
-            var gson = Gson()
-            val jsonFoodList: String = gson.toJson(ObjectHolder.globalMealHistoryList)
-            Log.i("Test_Response", "${jsonFoodList}")
-
-            try {
-                val postSavedData =
-                    httpClient.post<String>("http://192.168.1.7:5000/create-food-data") {
-                        headers {
-                            append(io.ktor.http.HttpHeaders.ContentType, "application/json")
-                        }
-                        body = jsonFoodList
+        ObjectHolder.threadPool.execute {
+            GlobalScope.launch {
+                delay(1000)
+                val httpClient = HttpClient(Android) {
+                    install(JsonFeature) {
+                        serializer = KotlinxSerializer(Json {
+                            ignoreUnknownKeys = true
+                        })
                     }
-                Log.i("Test_Response", "post successful, posted data: ${postSavedData}")
+                }
+                var gson = Gson()
+                val jsonFoodList: String = gson.toJson(ObjectHolder.globalMealHistoryList)
+                Log.i("Test_Response", "${jsonFoodList}")
+                Log.i("Test_Response", "${ObjectHolder.globalUser.heightInches}")
+                Log.i("Test_Response", "${ObjectHolder.globalUser.height}")
 
-            } catch (e: Exception) {
-                Log.i("Test_Response", "Unsuccessful post: ${e.message}")
+
+                try {
+                    val postSavedData =
+                        httpClient.post<String>(
+                            "http://192.168.1.6:5000/create-food-data/" +
+                                    "${ObjectHolder.globalUser.uniqueToken}/" +
+                                    "${ObjectHolder.globalUser.userMailAddress}") {
+                            headers {
+                                append(io.ktor.http.HttpHeaders.ContentType, "application/json")
+                            }
+                            body = jsonFoodList
+                        }
+                    Log.i("Test_Response", "post successful, posted data: $postSavedData")
+                    buttonText = synchronizedText
+
+
+                } catch (e: Exception) {
+                    Log.i("Test_Response", "Unsuccessful post: ${e.message}")
+                }
+
             }
-
         }
 
     },
         enabled = ObjectHolder.globalUser.authorized) {
-        Text(text = stringResource(id = R.string.synchronize_data))
+        Text(text = buttonText)
     }
 }
 
@@ -117,42 +142,44 @@ fun LastTimeSinceRecordedMealButton() {
     var lastRecordedMeal by remember { mutableStateOf("Last time since recorded meal") }
 
     Button(onClick = {
-        scope.launch {
-            val httpClient = HttpClient(Android) {
-                install(JsonFeature) {
-                    serializer = KotlinxSerializer(Json {
-                        ignoreUnknownKeys = true
-                    })
+        ObjectHolder.threadPool.execute {
+            scope.launch {
+                val httpClient = HttpClient(Android) {
+                    install(JsonFeature) {
+                        serializer = KotlinxSerializer(Json {
+                            ignoreUnknownKeys = true
+                        })
+                    }
                 }
-            }
-            try {
-                if (ObjectHolder.globalMealHistoryList.isNotEmpty()) {
-                    val timeDifference =
-                        httpClient.get<String> { url(
-                            " http://192.168.1.4:5000/get-time-difference/" +
-                                    "${ObjectHolder.globalMealHistoryList.first().foodDateEaten}/" +
-                                    "${ObjectHolder.globalMealHistoryList.first().foodTimeEaten}"
-                        ) }
-                    lastRecordedMeal =
-                        (timeDifference.toInt()/60).toString() +
-                                " hours and " +
-                                (timeDifference.toInt()%60).toString() +
-                                " minutes since last recorded meal"
-                    Log.i("Test_Response", "Success: ${timeDifference}")
-                } else {
-                    lastRecordedMeal = "No recorded meals!"
+                try {
+                    if (ObjectHolder.globalMealHistoryList.isNotEmpty()) {
+                        val timeDifference =
+                            httpClient.get<String> { url(
+                                " http://192.168.1.6:5000/get-time-difference/" +
+                                        "${ObjectHolder.globalMealHistoryList.first().foodDateEaten}/" +
+                                        "${ObjectHolder.globalMealHistoryList.first().foodTimeEaten}"
+                            ) }
+                        lastRecordedMeal =
+                            (timeDifference.toInt()/60).toString() +
+                                    " hours and " +
+                                    (timeDifference.toInt()%60).toString() +
+                                    " minutes since last recorded meal"
+                        Log.i("Test_Response", "Success: ${timeDifference}")
+                    } else {
+                        lastRecordedMeal = "No recorded meals!"
+                    }
+                } catch (e: Exception) {
+                    Log.i("Test_Response", "Exception ${e.message} ${ObjectHolder.globalMealHistoryList.last().foodDateEaten}")
                 }
-            } catch (e: Exception) {
-                Log.i("Test_Response", "Exception ${e.message} ${ObjectHolder.globalMealHistoryList.last().foodDateEaten}")
-            }
 
-            finally {
-                httpClient.close()
+                finally {
+                    httpClient.close()
+                }
             }
         }
 
     },
-        enabled = ObjectHolder.globalUser.authorized) {
+        enabled = true) {
         Text(text = lastRecordedMeal)
     }
 }
@@ -203,8 +230,8 @@ fun MealHistorySegment(
                 scope.launch {
                     mutex.withLock {
                         //deletedText = mutableStateOf("It's deleted")
-                        delay(2000L)
                         setIsButtonEnabled(false)
+                        delay(2000L)
                         ObjectHolder.globalMealHistoryList.removeAt(index)
                         saveToJsonFoodData(context)
                         Log.i("Test_Deletion", "Meal deleted successfully")

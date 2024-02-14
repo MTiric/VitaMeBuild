@@ -48,7 +48,7 @@ fun MainScreenComposable(navController: NavHostController) {
         GoToLogPersonalHealth(navController)
         GoToLogPrayerMeditaion(navController)
 
-        AndroidContextComposeDemo()
+        //AndroidContextComposeDemo()
         Button(onClick = {
             ObjectHolder.settings.fontSizeButtons = 16
             navController.navigate( route = "MAIN_SCREEN")

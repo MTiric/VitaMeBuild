@@ -1,6 +1,7 @@
 package com.example.vitamebuild
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -37,15 +38,21 @@ import io.ktor.client.engine.android.Android
 import io.ktor.client.request.get
 import io.ktor.client.request.url
 import kotlinx.coroutines.delay
+import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.InputStreamReader
+import java.io.PrintWriter
+import java.io.Reader
+import java.net.Socket
 
 import java.security.KeyPairGenerator
 import java.security.KeyPair
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
+import java.util.Scanner
 import java.util.concurrent.TimeUnit
 
 
@@ -121,6 +128,7 @@ class MainActivity : ComponentActivity() {
                     }*/
 
                     CustomNavHost(navController = navController)
+
 
                 }
             }

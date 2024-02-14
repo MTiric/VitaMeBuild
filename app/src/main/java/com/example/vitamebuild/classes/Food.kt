@@ -9,7 +9,6 @@ import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.generalFunctions.getCurrentDateAsString
 import com.example.vitamebuild.generalFunctions.getCurrentHourAsInt
 import com.example.vitamebuild.generalFunctions.getCurrentMinuteAsInt
-import com.example.vitamebuild.generalFunctions.getCurrentTimeAsString
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -74,6 +73,32 @@ open class Food (var foodName: String) {
             }
 
 
+    }
+
+    private fun getCurrentTimeAsString(): String {
+        var currentHourString = ""
+        var currentMinuteString = ""
+
+        if(getCurrentHourAsInt()<10){
+            currentHourString = "0" + getCurrentHourAsInt().toString()
+        } else {
+            currentHourString = getCurrentHourAsInt().toString()
+        }
+
+        if(getCurrentMinuteAsInt()<10){
+            currentMinuteString = "0" + getCurrentMinuteAsInt().toString()
+        } else {
+            currentMinuteString = getCurrentMinuteAsInt().toString()
+        }
+
+        return "$currentHourString:$currentMinuteString"
+    }
+
+    private fun getCurrentDateAsString(): String {
+        val currentDate = LocalDate.now() // Get the current time
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd") // Define the format
+
+        return currentDate.format(formatter) // Convert time to string using the defined format
     }
 
 

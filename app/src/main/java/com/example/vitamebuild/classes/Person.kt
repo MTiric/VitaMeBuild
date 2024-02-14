@@ -3,6 +3,8 @@ package com.example.vitamebuild.classes
 
 
 class Person (var nickname: String){
+    var userMailAddress: String = ""
+    var uniqueToken: String = ""
     var height: Double = 0.0
     var heightInches: Double= convertToInches(height)
     var weight: Double = 0.0
@@ -14,6 +16,7 @@ class Person (var nickname: String){
     var eatingStatus: String = ""
     var lifestyle: String = ""
     var authorized: Boolean = false
+    var mealHistory: MutableList<Food> = mutableListOf()
 
 
     fun WeightGoal(): Double {

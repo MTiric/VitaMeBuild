@@ -152,12 +152,14 @@ fun SignInScreen(navController: NavHostController) {
                                 val gson = Gson()
                                 val jsonResponseObject =
                                     gson.fromJson(authorized, JsonObject::class.java)
+
+                                ObjectHolder.globalUser.authorized = jsonResponseObject.get("authorized").asBoolean
+                                ObjectHolder.globalUser.uniqueToken = salt
+                                ObjectHolder.globalUser.userMailAddress = email
                                 Log.i(
                                     "Test_Response",
-                                    "post successful, user: ${jsonResponseObject.get("authorized").asBoolean}"
+                                    "post successful, user: ${ObjectHolder.globalUser.userMailAddress}"
                                 )
-                                ObjectHolder.globalUser.authorized =
-                                    jsonResponseObject.get("authorized").asBoolean
                                 navController.navigate(route = "MAIN_SCREEN")
 
                             } catch (e: Exception) {

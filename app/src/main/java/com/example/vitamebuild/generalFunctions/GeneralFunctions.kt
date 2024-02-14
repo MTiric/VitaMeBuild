@@ -19,6 +19,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
+import java.io.FileOutputStream
+import java.net.URL
 
 fun saveToJsonFoodData(context: android.content.Context){
     val gson = Gson()
@@ -113,6 +115,8 @@ fun getCurrentDateAsString(): String {
 
     return currentDate.format(formatter) // Convert time to string using the defined format
 }
+
+
 
 
 

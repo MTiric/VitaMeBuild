@@ -204,7 +204,14 @@ fun RegisterScreen(navController: NavHostController) {
                             val salt: String = Hasher().generateRandomSalt()
                             hashedPass = Hasher().generateHash(password, salt)
                             var jsonUserDataString: String =
-                                "{\"username\":\"$email\",\"password\":\"$hashedPass\", \"salt\":\"$salt\"}"
+                                "{\"username\":\"$email\"," +
+                                        "\"password\":\"$hashedPass\", " +
+                                        "\"salt\":\"$salt\", " +
+                                        "\"nickname\":\"$nickname\", " +
+                                        "\"height\":\"$height\", " +
+                                        "\"weight\":\"$weight\", " +
+                                        "\"age\":\"$age\"}"
+
 
                             Log.i("Test_Response", "${jsonUserDataString}")
 
