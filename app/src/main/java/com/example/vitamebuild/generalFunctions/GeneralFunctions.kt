@@ -18,9 +18,14 @@ import java.io.File
 import com.google.gson.GsonBuilder
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import java.io.BufferedInputStream
 import java.io.FileOutputStream
 import java.net.URL
+import java.nio.channels.Channels
+import java.nio.file.Files
+import java.nio.file.Paths
 
 fun saveToJsonFoodData(context: android.content.Context){
     val gson = Gson()

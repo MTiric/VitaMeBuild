@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
 import com.example.vitamebuild.classes.Hasher
 import com.example.vitamebuild.classes.Person
@@ -217,7 +218,7 @@ fun RegisterScreen(navController: NavHostController) {
 
                             try {
                                 val postSavedData =
-                                    httpClient.post<String>("http://192.168.1.6:5000/register") {
+                                    httpClient.post<String>("${ObjectHolder.globalURLRESTAPI}/register") {
                                         headers {
                                             append(HttpHeaders.ContentType, "application/json")
                                         }

@@ -1,6 +1,10 @@
 package com.example.vitamebuild
 
+import android.app.Application
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.AndroidException
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -27,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.example.vitamebuild.classes.AndroidDownloader
 import com.example.vitamebuild.classes.CryptoAES
 import com.example.vitamebuild.generalFunctions.getFoodList
 import com.example.vitamebuild.generalFunctions.loadJsonFileFoodData
@@ -46,12 +51,14 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.io.Reader
 import java.net.Socket
+import java.net.URL
 
 import java.security.KeyPairGenerator
 import java.security.KeyPair
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
+import java.util.Locale
 import java.util.Scanner
 import java.util.concurrent.TimeUnit
 
@@ -59,6 +66,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -75,8 +83,11 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     ObjectHolder.settings  = ObjectHolder.settings.loadFromIniFile(context)
                     loadJsonFileFoodData(context)
+                    val url: URL = URL("https://www.family-action.org.uk/content/uploads/2019/07/meals-more-recipes.pdf")
+                    val savePath = "meals-more-recipes.pdf"
                     val navController = rememberNavController()
                     val scope = rememberCoroutineScope()
+
 
 
 
@@ -137,6 +148,8 @@ class MainActivity : ComponentActivity() {
 
     }
 
+
+
     override fun onDestroy() {
         super.onDestroy()
         ObjectHolder.threadPool.shutdown()
@@ -144,6 +157,7 @@ class MainActivity : ComponentActivity() {
     }
 
 }
+
 
 fun generateKeyPair(): KeyPair {
     val keyPairGenerator = KeyPairGenerator.getInstance("RSA")

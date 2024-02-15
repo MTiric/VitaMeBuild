@@ -87,5 +87,6 @@
     <string name="button_style_2">Button style 2</string>
     <string name="synchronized_data">Data is synchronized</string>
     <string name="download_recipes">Download recipes :)</string>
+    <string name="do_all_above">Do all of above</string>
 
 </resources>

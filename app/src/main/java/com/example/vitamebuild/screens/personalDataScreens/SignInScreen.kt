@@ -133,7 +133,7 @@ fun SignInScreen(navController: NavHostController) {
                             try {
                                 val salt: String = httpClient.get<String> {
                                     url(
-                                        " http://192.168.1.6:5000/getUserToken/" + "${email}"
+                                        " ${ObjectHolder.globalURLRESTAPI}/getUserToken/" + "${email}"
                                     )
                                 }
 
@@ -143,7 +143,7 @@ fun SignInScreen(navController: NavHostController) {
 
                                 Log.i("Test_Response", "${jsonUserDataString}")
                                 val authorized =
-                                    httpClient.post<String>("http://192.168.1.6:5000/signIn") {
+                                    httpClient.post<String>("${ObjectHolder.globalURLRESTAPI}/signIn") {
                                         headers {
                                             append(HttpHeaders.ContentType, "application/json")
                                         }

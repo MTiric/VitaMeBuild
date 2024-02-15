@@ -19,4 +19,6 @@ object ObjectHolder {
     var globalIndex: Int = 0
     val threadPool = Executors.newFixedThreadPool(5) as ThreadPoolExecutor
     var globalUser = Person("Guest")
+    val globalURLRESTAPI = "http://192.168.1.9:5000"
+
 }
