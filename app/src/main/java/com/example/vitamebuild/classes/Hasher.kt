@@ -1,5 +1,7 @@
 package com.example.vitamebuild.classes
 
+import com.example.vitamebuild.ObjectHolder
+import java.math.BigInteger
 import java.security.MessageDigest
 import java.security.SecureRandom
 import java.security.spec.KeySpec
@@ -14,11 +16,11 @@ class Hasher () {
     private val ALGORITHM = "PBKDF2WithHmacSHA512"
     private val ITERATIONS = 120_000
     private val KEY_LENGTH = 256
-    private val PEPPER = "RandomSecret"
 
 
-    fun generateHash(password: String, salt: String): String {
-        val combinedSalt = "$salt$PEPPER".toByteArray()
+    fun generateHash(password: String, salt: String, pepper: String): String {
+        val newSalt = getFirstFourCharactersAndHashThem(salt)
+        val combinedSalt = "$newSalt$pepper".toByteArray()
         val factory: SecretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM)
         val spec: KeySpec = PBEKeySpec(password.toCharArray(), combinedSalt, ITERATIONS, KEY_LENGTH)
         val key: SecretKey = factory.generateSecret(spec)
@@ -26,7 +28,19 @@ class Hasher () {
         return hash.toHexString()
     }
 
-    fun generateRandomSalt(): String {
+    fun generateRandomLetter(): Char {
+        val randomIndex = (0 until ObjectHolder.alphabet.length).random()
+        return ObjectHolder.alphabet[randomIndex]
+    }
+    fun getFirstFourCharactersAndHashThem(input: String): String {
+        val firstFourChars = input.take(4)
+        val md = MessageDigest.getInstance("MD5")
+        val hashBytes = md.digest(firstFourChars.toByteArray())
+        val hashString = BigInteger(1, hashBytes).toString(16)
+        return hashString.padStart(32, '0')
+    }
+
+    fun generateRandomToken(): String {
         val random = SecureRandom()
         val salt = ByteArray(16)
         random.nextBytes(salt)

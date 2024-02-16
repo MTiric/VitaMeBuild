@@ -1,8 +1,15 @@
 package com.example.vitamebuild
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.AndroidException
 import android.util.Log
@@ -30,6 +37,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.compose.rememberNavController
 import com.example.vitamebuild.classes.AndroidDownloader
 import com.example.vitamebuild.classes.CryptoAES
@@ -65,6 +75,10 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
 
+    val CHANNEL_ID = "channelID"
+    val CHANNEL_NAME = "channelName"
+
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
@@ -83,11 +97,8 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
                     ObjectHolder.settings  = ObjectHolder.settings.loadFromIniFile(context)
                     loadJsonFileFoodData(context)
-                    val url: URL = URL("https://www.family-action.org.uk/content/uploads/2019/07/meals-more-recipes.pdf")
-                    val savePath = "meals-more-recipes.pdf"
+                    createNotificationChannel()
                     val navController = rememberNavController()
-                    val scope = rememberCoroutineScope()
-
 
 
 
@@ -138,7 +149,12 @@ class MainActivity : ComponentActivity() {
 
                     }*/
 
+
+
+
                     CustomNavHost(navController = navController)
+
+
 
 
                 }
@@ -146,6 +162,23 @@ class MainActivity : ComponentActivity() {
         }
 
 
+    }
+
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is not in the Support Library.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID, CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                lightColor = Color.GREEN
+                enableLights(true)
+            }
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
     }
 
 
@@ -157,6 +190,7 @@ class MainActivity : ComponentActivity() {
     }
 
 }
+
 
 
 fun generateKeyPair(): KeyPair {

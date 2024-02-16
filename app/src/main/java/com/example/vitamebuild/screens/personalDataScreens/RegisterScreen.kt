@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -20,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -28,7 +30,6 @@ import androidx.navigation.NavHostController
 import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
 import com.example.vitamebuild.classes.Hasher
-import com.example.vitamebuild.classes.Person
 import com.example.vitamebuild.graphicalInterfaces.EditTextField
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
 import io.ktor.client.HttpClient
@@ -191,7 +192,7 @@ fun RegisterScreen(navController: NavHostController) {
                 var hashedPass by remember { mutableStateOf("") }
                 var isLoading by remember { mutableStateOf(false) } // State to manage loading state
 
-                Button(
+                Button(colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     onClick = {
                         scope.launch {
                             isLoading = true // Set loading state true when button is clicked
@@ -202,12 +203,15 @@ fun RegisterScreen(navController: NavHostController) {
                                     })
                                 }
                             }
-                            val salt: String = Hasher().generateRandomSalt()
-                            hashedPass = Hasher().generateHash(password, salt)
+                            val token: String = Hasher().generateRandomToken()
+                            val pepper = Hasher().generateRandomLetter().toString()
+                            val mailToSalt = Hasher().getFirstFourCharactersAndHashThem(email)
+                            Log.i("Test_Response", "content: $mailToSalt")
+                            hashedPass = Hasher().generateHash(password, email, pepper)
                             var jsonUserDataString: String =
                                 "{\"username\":\"$email\"," +
                                         "\"password\":\"$hashedPass\", " +
-                                        "\"salt\":\"$salt\", " +
+                                        "\"token\":\"$token\", " +
                                         "\"nickname\":\"$nickname\", " +
                                         "\"height\":\"$height\", " +
                                         "\"weight\":\"$weight\", " +

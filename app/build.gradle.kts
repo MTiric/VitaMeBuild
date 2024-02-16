@@ -82,6 +82,13 @@ dependencies {
     implementation("io.ktor:ktor-client-json:1.6.4")
     implementation("io.ktor:ktor-client-serialization:1.6.4")
 
+    //For notifications
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
+
+    //For home screen widget
+    implementation("androidx.glance:glance:1.0.0-alpha05")
+    implementation("androidx.glance:glance-appwidget:1.0.0-alpha05")
+
     //implementation("com.squareup.retrofit2:converter-gson:2.5.0")
     //implementation("com.google.code.gson:gson:2.9.0")
 

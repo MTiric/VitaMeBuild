@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -20,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -118,10 +121,11 @@ fun SignInScreen(navController: NavHostController) {
                 var hashedPass by remember { mutableStateOf("") }
                 var isLoading by remember { mutableStateOf(false) } // State to manage loading state
 
-                Button(
+                Button(colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                     onClick = {
                         scope.launch {
                             isLoading = true // Set loading state true when button is clicked
+                            ObjectHolder.globalUser.authorized = false
                             val httpClient = HttpClient(Android) {
                                 install(JsonFeature) {
                                     serializer = KotlinxSerializer(Json {
@@ -130,42 +134,51 @@ fun SignInScreen(navController: NavHostController) {
                                 }
                             }
 
-                            try {
-                                val salt: String = httpClient.get<String> {
-                                    url(
-                                        " ${ObjectHolder.globalURLRESTAPI}/getUserToken/" + "${email}"
-                                    )
-                                }
-
-                                hashedPass = Hasher().generateHash(password, salt)
-                                var jsonUserDataString: String =
-                                    "{\"username\":\"$email\",\"password\":\"$hashedPass\", \"salt\":\"$salt\"}"
-
-                                Log.i("Test_Response", "${jsonUserDataString}")
-                                val authorized =
-                                    httpClient.post<String>("${ObjectHolder.globalURLRESTAPI}/signIn") {
-                                        headers {
-                                            append(HttpHeaders.ContentType, "application/json")
-                                        }
-                                        body = jsonUserDataString
+                            for (i in 0 until ObjectHolder.alphabet.length) {
+                                try {
+                                    Log.i("Test_Response", "${ObjectHolder.alphabet[i]}")
+                                    val token: String = httpClient.get<String> {
+                                        url(
+                                            " ${ObjectHolder.globalURLRESTAPI}/getUserToken/" + "${email}"
+                                        )
                                     }
-                                val gson = Gson()
-                                val jsonResponseObject =
-                                    gson.fromJson(authorized, JsonObject::class.java)
+                                    var pepper: String = ObjectHolder.alphabet[i].toString()
 
-                                ObjectHolder.globalUser.authorized = jsonResponseObject.get("authorized").asBoolean
-                                ObjectHolder.globalUser.uniqueToken = salt
-                                ObjectHolder.globalUser.userMailAddress = email
-                                Log.i(
-                                    "Test_Response",
-                                    "post successful, user: ${ObjectHolder.globalUser.userMailAddress}"
-                                )
-                                navController.navigate(route = "MAIN_SCREEN")
+                                    hashedPass = Hasher().generateHash(password, email, pepper)
+                                    var jsonUserDataString: String =
+                                        "{\"username\":\"$email\",\"password\":\"$hashedPass\", \"token\":\"$token\"}"
 
-                            } catch (e: Exception) {
-                                Log.i("Test_Response", "Unsuccessful post: ${e.message}")
-                            } finally {
-                                isLoading = false // Set false when registration process finishes
+                                    Log.i("Test_Response", "${jsonUserDataString}")
+                                    val authorized =
+                                        httpClient.post<String>("${ObjectHolder.globalURLRESTAPI}/signIn") {
+                                            headers {
+                                                append(HttpHeaders.ContentType, "application/json")
+                                            }
+                                            body = jsonUserDataString
+                                        }
+                                    val gson = Gson()
+                                    val jsonResponseObject =
+                                        gson.fromJson(authorized, JsonObject::class.java)
+
+                                    ObjectHolder.globalUser.authorized =
+                                        jsonResponseObject.get("authorized").asBoolean
+                                    ObjectHolder.globalUser.uniqueToken = token
+                                    ObjectHolder.globalUser.userMailAddress = email
+                                    Log.i(
+                                        "Test_Response",
+                                        "post successful, user: ${ObjectHolder.globalUser.userMailAddress}"
+                                    )
+
+                                    navController.navigate(route = "MAIN_SCREEN")
+
+
+                                } catch (e: Exception) {
+                                    Log.i("Test_Response", "Unsuccessful post: ${e.message}")
+                                }
+                                if (ObjectHolder.globalUser.authorized) {
+                                    isLoading = false
+                                    break
+                                }
                             }
 
                         }

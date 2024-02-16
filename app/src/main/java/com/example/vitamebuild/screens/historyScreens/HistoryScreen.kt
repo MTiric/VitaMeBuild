@@ -1,5 +1,6 @@
 package com.example.vitamebuild.screens.historyScreens
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
@@ -45,8 +48,16 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.Json
 
+@SuppressLint("MissingPermission")
 @Composable
 fun HistoryScreen(navController: NavHostController) {
+    val CHANNEL_ID = "channelID"
+    val NOTIFICATION_ID = 0
+    var lastRecordedMeal by remember { mutableStateOf("Last time since recorded meal") }
+    var lastRecordedMealChecked = false
+
+
+
     MyScaffold(
         navController,
         currentScreenName = R.string.meal_history,
@@ -56,6 +67,7 @@ fun HistoryScreen(navController: NavHostController) {
             var synchronisationText: String = stringResource(id = R.string.synchronize_data)
             var synchronizedText:String = stringResource(id = R.string.synchronized_data)
             var buttonTextSynchronize by remember { mutableStateOf(synchronisationText) }
+            var context = LocalContext.current
 
             Button(onClick = {
                 ObjectHolder.threadPool.execute {
@@ -70,12 +82,22 @@ fun HistoryScreen(navController: NavHostController) {
                 Text(text = buttonTextSynchronize)
             }
 
-            var lastRecordedMeal by remember { mutableStateOf("Last time since recorded meal") }
-
             Button(onClick = {
                 ObjectHolder.threadPool.execute {
                     scope.launch {
-                        lastRecordedMeal = timeSinceLastMeal(scope)
+                        lastRecordedMeal = timeSinceLastMeal()
+
+                        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                            .setContentTitle("When did you last eat?")
+                            .setContentText(lastRecordedMeal)
+                            .setSmallIcon(androidx.core.R.drawable.notification_bg)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .build()
+
+                        val notificationManager = NotificationManagerCompat.from(context)
+
+                        notificationManager.notify(NOTIFICATION_ID, notification)
+
                     }
                 }
 
@@ -108,7 +130,7 @@ fun HistoryScreen(navController: NavHostController) {
                 }
                 ObjectHolder.threadPool.execute {
                     scope.launch {
-                        lastRecordedMeal = timeSinceLastMeal(scope)
+                        lastRecordedMeal = timeSinceLastMeal()
                     }
                 }
                 ObjectHolder.threadPool.execute {
@@ -187,7 +209,8 @@ fun LastTimeSinceRecordedMealButton() {
 
 }
 
-suspend fun timeSinceLastMeal(scope: CoroutineScope): String {
+suspend fun timeSinceLastMeal(): String {
+
     var lastMeal: String = ""
 
             val httpClient = HttpClient(Android) {
