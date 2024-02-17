@@ -162,6 +162,14 @@ fun SignInScreen(navController: NavHostController) {
 
                                     ObjectHolder.globalUser.authorized =
                                         jsonResponseObject.get("authorized").asBoolean
+                                    ObjectHolder.globalUser.nickname =
+                                        jsonResponseObject.get("nickname")?.asString.toString()
+                                    ObjectHolder.globalUser.height =
+                                        jsonResponseObject.get("height")?.asString?.toDouble()
+                                    ObjectHolder.globalUser.weight =
+                                        jsonResponseObject.get("weight")?.asString?.toDouble()
+                                    ObjectHolder.globalUser.age =
+                                        jsonResponseObject.get("age")?.asString?.toIntOrNull()
                                     ObjectHolder.globalUser.uniqueToken = token
                                     ObjectHolder.globalUser.userMailAddress = email
                                     Log.i(

@@ -91,5 +91,7 @@
     <string name="channel_name">Channel name</string>
     <string name="channel_description">Channel description</string>
     <string name="record_meal">Record a meal?</string>
+    <string name="weightInPounds">Weight in pounds</string>
+    <string name="heightInches">Height in inches</string>
 
 </resources>

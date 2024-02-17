@@ -72,6 +72,79 @@ import java.util.Locale
 import java.util.Scanner
 import java.util.concurrent.TimeUnit
 
+import android.app.Service
+import android.content.Intent
+import android.os.IBinder
+import com.example.vitamebuild.screens.historyScreens.timeSinceLastMeal
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+class NotificationService : Service() {
+
+    private var isRunning = false
+    private lateinit var backgroundThread: Thread
+    val CHANNEL_ID = "channelID"
+    val NOTIFICATION_ID = 0
+
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        isRunning = true
+        backgroundThread = Thread {
+            GlobalScope.launch {
+                while (isRunning) {
+                    Thread.sleep(60000*60*24)
+                    sendNotification(this@NotificationService, NOTIFICATION_ID)
+                }
+            }
+
+        }
+        backgroundThread.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //isRunning = false
+        //backgroundThread.interrupt()
+    }
+
+    private suspend fun sendNotification(context: Context, NOTIFICATION_ID: Int) {
+
+        var lastRecordedMeal = timeSinceLastMeal()
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+            .setContentTitle("When did you last eat?")
+            .setContentText(lastRecordedMeal)
+            .setSmallIcon(androidx.core.R.drawable.notification_bg)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .build()
+
+        val notificationManager = NotificationManagerCompat.from(context)
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        notificationManager.notify(NOTIFICATION_ID, notification)
+
+        Log.i("Test_Service", "background service is running...")
+        }
+}
+
 
 class MainActivity : ComponentActivity() {
 
@@ -99,6 +172,7 @@ class MainActivity : ComponentActivity() {
                     loadJsonFileFoodData(context)
                     createNotificationChannel()
                     val navController = rememberNavController()
+                    startService(Intent(this, NotificationService::class.java))
 
 
 

@@ -224,7 +224,7 @@ suspend fun timeSinceLastMeal(): String {
                 if (ObjectHolder.globalMealHistoryList.isNotEmpty()) {
                     val timeDifference =
                         httpClient.get<String> { url(
-                            " http://192.168.1.9:5000/get-time-difference/" +
+                            "${ObjectHolder.globalURLRESTAPI}/get-time-difference/" +
                                     "${ObjectHolder.globalMealHistoryList.first().foodDateEaten}/" +
                                     "${ObjectHolder.globalMealHistoryList.first().foodTimeEaten}"
                         ) }
