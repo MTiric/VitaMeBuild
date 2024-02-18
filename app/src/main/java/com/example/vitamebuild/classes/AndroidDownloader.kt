@@ -27,10 +27,9 @@ class AndroidDownloader(
     override fun downloadFile(url: String): Long {
         val request = DownloadManager.Request(url.toUri())
             .setMimeType("application/pdf")
-            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+            //.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
             .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
             .setTitle("recipeMeals.pdf")
-            .addRequestHeader("Authorization", "Bearer<token>")
             .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "recipeMeals.pdf")
         return downloadManager.enqueue(request)
     }

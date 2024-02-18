@@ -75,6 +75,7 @@ import java.util.concurrent.TimeUnit
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import com.example.vitamebuild.screens.historyScreens.HistoryScreen
 import com.example.vitamebuild.screens.historyScreens.timeSinceLastMeal
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -112,7 +113,7 @@ class NotificationService : Service() {
         //backgroundThread.interrupt()
     }
 
-    private suspend fun sendNotification(context: Context, NOTIFICATION_ID: Int) {
+    suspend fun sendNotification(context: Context, NOTIFICATION_ID: Int) {
 
         var lastRecordedMeal = timeSinceLastMeal()
 
@@ -266,7 +267,6 @@ class MainActivity : ComponentActivity() {
 }
 
 
-
 fun generateKeyPair(): KeyPair {
     val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
     keyPairGenerator.initialize(2048) // You can adjust the key size as needed
@@ -310,6 +310,6 @@ fun ListItem() {
 fun GreetingPreview() {
     VitaMeBuildTheme {
         val navController = rememberNavController()
-        CustomNavHost(navController = navController)
+        HistoryScreen(navController)
     }
 }

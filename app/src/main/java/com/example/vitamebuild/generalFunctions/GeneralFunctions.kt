@@ -1,6 +1,7 @@
 package com.example.vitamebuild.generalFunctions
 
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
@@ -26,7 +27,35 @@ import java.net.URL
 import java.nio.channels.Channels
 import java.nio.file.Files
 import java.nio.file.Paths
+import org.json.XML
 
+fun saveToXMLWaterDATA(context: android.content.Context) {
+    val gson = Gson()
+    val jsonWaterObject: String =
+        "{\"Price\": {" +
+     "    \"LineItems\": {" +
+     "        \"LineItem\": {" +
+     "            \"UnitOfMeasure\": \"EACH\", \"Quantity\": 2, \"ItemID\": \"ItemID\"" +
+     "        }" +
+     "    }," +
+     "    \"Currency\": \"USD\"," +
+     "    \"EnterpriseCode\": \"Ent erpriseCode\"" +
+    "}}"
+    Log.i("TestStoredValue", "jsonString: $jsonWaterObject")
+    val xml: String = XML.toString(jsonWaterObject)
+    Log.i("TestStoredValue", "xml: $xml")
+
+    try {
+        File(context.filesDir,"WaterHistory.xml").writeText(xml)
+        Log.i("TestStoredValue", "saved data: ${xml}")
+    } catch (e: Exception) {
+        Log.i("TestStoredValue", "error: ${e.message}")
+    }
+
+
+
+
+}
 fun saveToJsonFoodData(context: android.content.Context){
     val gson = Gson()
 

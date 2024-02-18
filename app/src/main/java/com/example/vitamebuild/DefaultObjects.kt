@@ -21,6 +21,7 @@ object ObjectHolder {
     var globalUser = Person("Guest")
     val globalURLRESTAPI = "http://192.168.1.4:5000"
     val alphabet = "bcćčdđefghijklmnopqrsštuvwxyzža"
+    var isFoodInput = false
 
 
 }

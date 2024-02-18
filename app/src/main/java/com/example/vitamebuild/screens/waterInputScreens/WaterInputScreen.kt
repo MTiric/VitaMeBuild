@@ -1,6 +1,7 @@
 package com.example.vitamebuild.screens.waterInputScreens
 
-import android.graphics.PathIterator.Segment
+import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,10 +19,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,7 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -44,28 +43,37 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
+import com.example.vitamebuild.generalFunctions.saveToXMLWaterDATA
 import com.example.vitamebuild.graphicalInterfaces.EditTextField
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
-import com.example.vitamebuild.screens.foodInputScreens.FoodInputFoodName
-import com.example.vitamebuild.screens.foodInputScreens.SubmitButton
 
 @Composable
 fun WaterInputScreen(navController: NavHostController) {
+    var context = LocalContext.current
     MyScaffold(navController,
         currentScreenName = R.string.log_water_intake,
         previousScreenRoute = "MAIN_SCREEN") {
-            WaterInputDetailed(navController)
+            WaterInputDetailed(navController, context)
     }
 }
 
 @Composable
-fun WaterInputDetailed(navController: NavHostController) {
+fun WaterInputDetailed(navController: NavHostController, context: Context) {
     MyStyleColumn(textContent = R.string.today_I_drank) {
         WaterInputData()
         InputScreenText(textContent = R.string.of_water)
 
         Spacer(modifier = Modifier.height(32.dp))
-        SubmitButton(navController, route = "MAIN_SCREEN")
+        Button(onClick = {
+            saveToXMLWaterDATA(context)
+            //navController.navigate("MAIN_SCREEN")
+
+        },
+            modifier = Modifier
+                .height(72.dp)
+                .fillMaxWidth()) {
+            Text(stringResource(R.string.submit_button))
+        }
 
         Spacer(modifier = Modifier.height(200.dp))
     }
@@ -76,8 +84,8 @@ fun WaterInputDetailed(navController: NavHostController) {
 fun WaterInputData() {
     Row (horizontalArrangement = Arrangement.Center){
         SegmentField(
-            segmentTitle = "test",
-            segmentText = "test"
+            segmentTitle = "Mililiters",
+            segmentText = "+100ml"
         )
         Column {
             Icon(
@@ -93,8 +101,8 @@ fun WaterInputData() {
             )
         }
         SegmentField(
-            segmentTitle = "test",
-            segmentText = "test"
+            segmentTitle = "Glasses",
+            segmentText = "+1 glass(300mL)"
         )
     }
 }
@@ -148,12 +156,12 @@ fun SegmentField(segmentTitle: String, segmentText: String, modifier: Modifier =
     Column (modifier = modifier,
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally){
-        var foodName by remember { mutableStateOf(ObjectHolder.newMeal.foodName) }
+        var water by remember { mutableStateOf(0) }
 
         EditTextField(
-            value = foodName,
-            onValueChanged = { foodName = it },
-            label = R.string.food_name,
+            value = water.toString(),
+            onValueChanged = { water = it.toInt() },
+            label = R.string.water_intake,
             //leadingIcon = R.drawable.template,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
@@ -165,13 +173,30 @@ fun SegmentField(segmentTitle: String, segmentText: String, modifier: Modifier =
                 .width(120.dp)
                 .align(Alignment.End)
         )
-        ObjectHolder.newMeal.foodName = foodName
-        Text(
-            text = segmentText,
-            textAlign = TextAlign.Justify,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
+        Button(onClick = {
+            if (segmentTitle == "Mililiters"){
+                water += 100
+                ObjectHolder.waterIntake.miliLitresCount = water
+                Log.i("Test_Waters", "${ObjectHolder.waterIntake.miliLitresCount}")
+
+            }
+        }) {
+            Text(
+                text = segmentText
+            )
+        }
+        Button(onClick = {
+            if (segmentTitle == "Mililiters"){
+                water -= 100
+                Log.i("Test_Waters", "$water")
+
+            }
+        }) {
+            Text(
+                text = "Undo"
+            )
+        }
+
     }
 }
 

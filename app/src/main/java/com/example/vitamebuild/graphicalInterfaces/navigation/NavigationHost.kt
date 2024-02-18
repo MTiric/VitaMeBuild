@@ -8,6 +8,7 @@ import com.example.navigationcomponent.IsThisYourMeal
 import com.example.navigationcomponent.MainScreen
 import com.example.navigationcomponent.ScreenOne
 import com.example.navigationcomponent.ScreenTwo
+import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
 import com.example.vitamebuild.graphicalInterfaces.MyScaffold
 import com.example.vitamebuild.graphicalInterfaces.navigation.navigationButtons.MyButton
@@ -33,9 +34,13 @@ import com.example.vitamebuild.screens.waterInputScreens.WaterInputScreen
 fun CustomNavHost(
     navController: NavHostController
 ) {
+    var startDestination: String = "MAIN_SCREEN"
+    if (ObjectHolder.isFoodInput){
+        startDestination = "FOOD_INPUT_SCREEN"
+    }
     NavHost(
         navController = navController,
-        startDestination = "MAIN_SCREEN"
+        startDestination = startDestination
     ) {
         composable(route = "SCREEN_ONE") {
             ScreenOne(navController)

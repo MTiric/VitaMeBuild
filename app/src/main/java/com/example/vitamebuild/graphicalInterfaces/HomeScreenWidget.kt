@@ -2,7 +2,12 @@ package com.example.vitamebuild.graphicalInterfaces
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
@@ -24,7 +29,11 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.example.vitamebuild.MainActivity
+import com.example.vitamebuild.ObjectHolder
 import com.example.vitamebuild.R
+import com.example.vitamebuild.screens.historyScreens.timeSinceLastMeal
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 object HomeScreenWidget: GlanceAppWidget() {
 
@@ -38,17 +47,11 @@ object HomeScreenWidget: GlanceAppWidget() {
             verticalAlignment = androidx.glance.layout.Alignment.Vertical.CenterVertically,
             horizontalAlignment = androidx.glance.layout.Alignment.Horizontal.CenterHorizontally
         ){
-            Text(
-                text = text,
-                style = TextStyle(
-                    fontWeight = FontWeight.Medium,
-                    color = ColorProvider(Color.White),
-                    fontSize = 26.sp
-                )
-            )
+            var lastMeal by remember { mutableStateOf("Last meal?") }
             Button(text = "Log a meal",
                 onClick = actionRunCallback(OpenVitaMeApp::class.java)
             )
+
 
         }
     }
@@ -69,5 +72,27 @@ class OpenVitaMeApp: ActionCallback {
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
+        ObjectHolder.isFoodInput = true
+        GlobalScope.launch {
+            var lastRecordedMeal = timeSinceLastMeal()
+            Log.i("Test_Response", "$lastRecordedMeal")
+        }
+    }
+}
+
+class CheckLastMeal: ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+        val intent = Intent(context, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+        ObjectHolder.isFoodInput = true
+        GlobalScope.launch {
+            var lastRecordedMeal = timeSinceLastMeal()
+            Log.i("Test_Response", "$lastRecordedMeal")
+        }
     }
 }

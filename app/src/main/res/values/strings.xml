@@ -93,5 +93,6 @@
     <string name="record_meal">Record a meal?</string>
     <string name="weightInPounds">Weight in pounds</string>
     <string name="heightInches">Height in inches</string>
+    <string name="water_intake">Water intake</string>
 
 </resources>
